@@ -1,5 +1,10 @@
 PavoPrototype::Application.routes.draw do
   root 'welcome#index'
+
+  resources :item_lists, :defaults => { :format => 'json' } do
+    resources :items, :defaults => { :format => 'json' }
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
