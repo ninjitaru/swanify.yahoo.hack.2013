@@ -1,0 +1,23 @@
+{
+  "name": "Swan",
+  "description": "Capture current page info onto Swan",
+  "version": "0.0.1",
+  "permissions": ["activeTab" , "tabs"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Swan"
+  },
+  // "content_scripts" : [
+  //   {
+  //     "matches" : [ "http://*/*" ],
+  //     "js" : [ "contentscript.js" ],
+  //     "run_at" : "document_idle",
+  //     "all_frames" : false
+  //   }
+  // ],
+  "manifest_version": 2
+}
