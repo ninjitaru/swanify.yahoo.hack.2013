@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131028141134) do
+ActiveRecord::Schema.define(version: 20131030125408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 20131028141134) do
     t.integer  "price"
     t.text     "images"
     t.integer  "item_list_id"
+  end
+
+  create_table "pavo_canvas", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "template_id"
+    t.string   "owner"
+    t.text     "objects"
   end
 
 end

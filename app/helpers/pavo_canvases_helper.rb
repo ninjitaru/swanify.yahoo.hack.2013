@@ -1,0 +1,2 @@
+module PavoCanvasesHelper
+end

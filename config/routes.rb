@@ -5,6 +5,8 @@ PavoPrototype::Application.routes.draw do
     resources :items, :defaults => { :format => 'json' }
   end
 
+  resources :pavo_canvas, :defaults => { :format => 'json' }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
