@@ -20,11 +20,20 @@ if(!price)
         price = jQuery('li.buy').text().replace(/\D/g, '');;
     }
 }
-
 console.log(price);
-
 console.log(document.URL);
 console.log(document.title);
-
-jQuery.post( "http://pavo-prototype.herokuapp.com/item_lists/1/items?token=abc", 
-    { url: document.URL, price : price, images : srcList, title: document.title });
+$.ajax({
+    type : "POST",
+    url : "http://pavo-prototype.herokuapp.com/item_lists/1/items?token=abc",
+    dataType : "json",
+    data :  { url: document.URL, price : price, images : srcList, title: document.title },
+    success : function (msg) {},
+    error: function(xhr, textStatus, error){
+      console.log(xhr.statusText);
+      console.log(textStatus);
+      console.log(error);
+  }
+    });
+// jQuery.post( "http://pavo-prototype.herokuapp.com/item_lists/1/items?token=abc", 
+//     { url: document.URL, price : price, images : srcList, title: document.title });
