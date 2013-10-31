@@ -1,4 +1,51 @@
-<h2>Hello World</h2>
-<p>
-  The time is now: <%= Time.now %>
-</p>
+<html>
+<head>
+	<%= javascript_include_tag "jquery-1.10.2.min.js" %>
+	<%= javascript_include_tag "jquery-ui-1.10.3.custom.js" %>
+	<%= stylesheet_link_tag "gallery_page.css" %>
+</head>
+
+<body>
+	<script type="text/javascript">
+	$(function ( event, ui ) {
+	    $( ".draggable" ).draggable({
+	        revert: 'invalid',
+	    });	
+    });
+
+	function generateContent() {
+		var getUrl = 'http://pavo-prototype.herokuapp.com/item_list/1';
+		$.get(getUrl,
+			{},
+			function(response) {
+				console.log('Success!');
+			}, "json"
+		);
+	}
+
+    generateContent();
+	</script>
+
+	<div id="gallery_page">
+		<div class="image_list">
+			<div class="draggable"><a href="#"><img id="imgList_item1" src="/assets/1.jpg" /></a></div>
+			<div class="draggable"><a href="#"><img id="imgList_item2" src="/assets/2.jpg" /></a></div>
+			<div class="draggable"><a href="#"><img id="imgList_item3" src="/assets/3.jpg" /></a></div>
+		</div>
+
+		<div class="content">
+			<div id="big_content_item"><a href="#"><img id="contentImg1" src="/assets/1.jpg" /></a></div>
+			<div><a href="#"><img id="contentImg2" src="/assets/2.jpg" /></a></div>
+			<div><a href="#"><img id="contentImg3" src="/assets/3.jpg" /></a></div>
+			<div><a href="#"><img id="contentImg4" src="/assets/4.jpg" /></a></div>
+			<div><a href="#"><img id="contentImg5" src="/assets/5.jpg" /></a></div>
+		</div>
+
+		<div class="template_list">
+			<a href="#"><img id="template1" src="/assets/template/1.png" /></a>
+			<a href="#"><img id="template2" src="/assets/template/2.png" /></a>
+			<a href="#"><img id="template3" src="/assets/template/3.png" /></a>
+		</div>
+	</div>
+</body>
+</html>
