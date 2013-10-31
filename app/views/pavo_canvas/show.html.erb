@@ -1,0 +1,27 @@
+<head>
+  <%= javascript_include_tag "jquery-1.10.2.min.js" %>
+  <%= javascript_include_tag "jquery-ui-1.10.3.custom.js" %>
+  <%= stylesheet_link_tag "gallery_page.css" %>
+</head>
+
+<body>
+  <script type="text/javascript">
+  $(function ( event, ui ) {
+      $( ".draggable" ).draggable({
+          revert: 'invalid',
+      });
+    });
+  </script>
+<p>
+  <h1>Welcome to Swanify</h1>
+  <div class="image_list">
+    <% @item_list.items.each do |item| %>
+      <div class="draggable">
+        <a href="#"><%= image_tag item.images[0] %></a>
+      </div>
+    <% end %>
+  </div>
+  <strong>Owner:</strong>
+  <%= @canvas.owner %>
+</p>
+</body>

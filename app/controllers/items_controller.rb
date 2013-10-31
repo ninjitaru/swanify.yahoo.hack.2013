@@ -1,14 +1,12 @@
 class ItemsController < ApplicationController
 
     def create
-        @item_list = ItemList.find(params[:item_list_id])
+        @item_list = ItemList.find_by_owner(params[:item_list_id])
 
         old_item = @item_list.items.find_by_url(params[:url])
-        if old_item
-            response.status = 400
-            render json: {
-                :error => "You insert same url item again!"
-            }
+        unless old_item.nil?
+            # reponse the same item
+            render json: old_item
             return
         end
 
@@ -20,7 +18,7 @@ class ItemsController < ApplicationController
     end
 
     def destroy
-        @item_list = ItemList.find(params[:item_list_id])
+        @item_list = ItemList.find_by_owner(params[:item_list_id])
         @item = @item_list.items.find(params[:id])
         @item.destroy
 
