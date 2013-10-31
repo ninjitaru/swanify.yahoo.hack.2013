@@ -7,9 +7,11 @@ class PavoCanvasController < ApplicationController
     end
 
     def show
-        @canvas = PavoCanva.find(params[:id])
-        respond_to do |format|
-            format.json { render json: @canvas }
+        @canvas = PavoCanva.find_by_owner(params[:id])
+        if @canvas.nil?
+            @canvas = PavoCanva.new
+            @canvas.owner = params[:id]
+            @canvas.save
         end
     end
 
