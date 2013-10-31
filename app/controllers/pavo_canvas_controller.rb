@@ -8,6 +8,8 @@ class PavoCanvasController < ApplicationController
 
     def show
         @canvas = PavoCanva.find_by_owner(params[:id])
+        @item_list = ItemList.find_by_owner(params[:id])
+
         if @canvas.nil?
             @canvas = PavoCanva.new
             @canvas.owner = params[:id]

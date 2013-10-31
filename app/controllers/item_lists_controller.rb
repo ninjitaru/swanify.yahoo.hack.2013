@@ -29,7 +29,7 @@ class ItemListsController < ApplicationController
     end
 
     def destroy
-        @item_list = ItemList.find(params[:id])
+        @item_list = ItemList.find_by_owner(params[:id])
         @item_list.destroy
         render json: { :message => "Remove success!" }
     end
