@@ -1,7 +1,7 @@
 var username = "ninji";
 
 
-deleteItemList(username);
+// deleteItemList(username);
 getItemListID(username);
 
 
@@ -93,40 +93,41 @@ function getItemListID(userid) {
         }
         return;
     }
-    else
-    {
-        itemList = new Object();
-        itemList.id = userid;
-        itemList.items = [];
-        localStorage.setItem("item_list", JSON.stringify(itemList));
-        sendData(itemList);
-    }
+    // else
+    // {
+    //     itemList = new Object();
+    //     itemList.id = userid;
+    //     itemList.items = [];
+    //     localStorage.setItem("item_list", JSON.stringify(itemList));
+    //     sendData(itemList);
+    // }
 
     // my toen is id dont use this anymore
-  //   $.ajax({
-  //   type : "POST",
-  //   url : "http://pavo-prototype.herokuapp.com/item_lists?t="+userid,
-  //   contentType: "application/json;charset=utf-8",
-  //   dataType : "json",
-  //   crossDomain: true,
-  //   success : function (msg) { 
-  //       console.log("create user with item_list_id " + msg.id);
-  //       var itemList = new Object();
-  //       itemList.id = msg.id;
-  //       itemList.items = [];
-  //       localStorage.setItem("item_list", JSON.stringify(itemList));
-  //       console.log("saved item_list_id");
-  //       // console.log(itemList);
-  //       sendData(itemList);
-  //       // chrome.extension.sendMessage({ item_list_id : msg.id });
-  //   },
-  //   error: function(xhr, textStatus, error){
-  //     // console.log(xhr.statusText);
-  //     // console.log(textStatus);
-  //     // console.log(error);
-  // },
-  //   beforeSend: setHeader
-  //   });
+    $.ajax({
+    type : "GET",
+    url : "http://pavo-prototype.herokuapp.com/item_lists/"+userid,
+    contentType: "application/json;charset=utf-8",
+    dataType : "json",
+    crossDomain: true,
+    success : function (msg) { 
+        console.log("create user with item_list_id ");
+        console.log(msg);
+        var itemList = msg;
+        // itemList.id = msg.id;
+        // itemList.items = [];
+        localStorage.setItem("item_list", JSON.stringify(itemList));
+        console.log("saved item_list_id");
+        // console.log(itemList);
+        sendData(itemList);
+        // chrome.extension.sendMessage({ item_list_id : msg.id });
+    },
+    error: function(xhr, textStatus, error){
+      // console.log(xhr.statusText);
+      // console.log(textStatus);
+      // console.log(error);
+  },
+    beforeSend: setHeader
+    });
 }
 
 function sendData(itemList)
@@ -181,7 +182,7 @@ function sendData(itemList)
 
     $.ajax({
         type : "POST",
-        url : "http://pavo-prototype.herokuapp.com/item_lists/"+itemList.id+"/items?token=abc",
+        url : "http://pavo-prototype.herokuapp.com/item_lists/"+itemList.owner+"/items",
         contentType: "application/json;charset=utf-8",
         dataType : "json",
         crossDomain: true,
