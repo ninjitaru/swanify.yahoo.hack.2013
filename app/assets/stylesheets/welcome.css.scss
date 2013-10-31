@@ -51,3 +51,14 @@
 .clear{
     clear:both;
 }
+
+#canvas
+{
+	position: relative;
+}
+
+.template_item
+{
+	position: absolute;
+	outline:black solid thin;
+}
