@@ -14,6 +14,9 @@
   </script>
   <p>
     <h1>Welcome to Swanify</h1>
+
+    <strong>Owner: <%= @canvas.owner %></strong>
+
     <div class="image_list">
       <% @item_list.items.each do |item| %>
       <div class="draggable">
@@ -21,26 +24,47 @@
       </div>
       <% end %>
     </div>
-    <strong>Owner:</strong>
-
     <div id="canvas"></div>
-    <%= @canvas.owner %>
+    <div id="template_selector"></div>
 
     <script type="text/javascript">
-    var canvas = $("#canvas");
-    var currentTemplate = templates[0];
-    var items = currentTemplate.items;
-
-    for(var index in items)
+    function setTemplate(template)
     {
-     var canvasContent = $('<div class="template_item"></div>');
-     var item = items[index];
-     canvasContent.css("left", item[0] + "px");
-     canvasContent.css("top", item[1] + "px");
-     canvasContent.css("width", item[2] + "px");
-     canvasContent.css("height", item[3] + "px");
-     canvas.append(canvasContent);
+      var canvas = $("#canvas");
+      canvas.empty();
+      var items = template.items;
+
+      for(var index in items)
+      {
+       var canvasItem = $('<div class="canvas_item"></div>');
+       var item = items[index];
+       canvasItem.css("left", item[0] + "px");
+       canvasItem.css("top", item[1] + "px");
+       canvasItem.css("width", item[2] + "px");
+       canvasItem.css("height", item[3] + "px");
+       canvas.append(canvasItem);
+     }
    }
-   </script>
- </p>
+
+   var currentTemplate = templates[0];
+   setTemplate(currentTemplate);
+
+   var templateSelector = $("#template_selector");
+   for(var index in templates)
+   {
+    var template = templates[index];
+    var templateItem = $('<img class="template_item">');
+    templateItem.attr('src', template.image);
+    templateItem.click(function() {
+      var t = template
+      return function(){
+        setTemplate(t)
+      }
+    }());
+    templateItem.appendTo(templateSelector);
+  }
+
+
+  </script>
+</p>
 </body>

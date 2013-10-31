@@ -6,7 +6,8 @@ class ItemsController < ApplicationController
         old_item = @item_list.items.find_by_url(params[:url])
         unless old_item.nil?
             # reponse the same item
-            render json: old_item
+            response.status = 400
+            render json: { :message => "You already had same item!" }
             return
         end
 

@@ -55,10 +55,24 @@
 #canvas
 {
 	position: relative;
+	width: 600px;
+	height: 400px;
+}
+
+#template_selector
+{
+	background-color: black
+}
+
+.canvas_item
+{
+	position: absolute;
+	outline:black solid thin;
 }
 
 .template_item
 {
-	position: absolute;
-	outline:black solid thin;
+	width: 100px;
+	height: 100px;
+	margin: 2px;
 }
