@@ -11,8 +11,47 @@ function printItemListSummary(itemList)
     console.log(itemList);
 }
 
+function showTopBar() {
+    var topbar;
+  // $('body').css({
+  //   'padding-top': '160px'
+  // });
+  topbar = $("<div id='topbar'></div>");
+  topbar.css({
+    'position': 'fixed',
+    'right': '0px',
+    'top': '-160px',
+    'z-index': 9999,
+    'width': '100%',
+    'height': '160px',
+    'background-color': 'blue'  // Confirm it shows up
+  });
+
+
+  $('body').append(topbar);
+
+  // animate the toolbar appreance
+  topbar.animate(
+  {
+    top : "0px"
+  }, 
+  500, 
+  "linear", 
+  function() {
+    console.log("animate complete");
+  }); 
+}
+
+function showItemOnBar(item)
+{
+    var topbar = $("div#topbar");
+    console.log(topbar);
+    topbar.append("<p>aaaaa</p>");
+}
+
 function getItemListID(userid) {
 
+    showTopBar();
     var value = localStorage.getItem("item_list");
     var itemList = (value && JSON.parse(value));
     if(itemList && itemList.id)
@@ -111,11 +150,13 @@ function sendData(itemList)
             itemList.items.push(item);
             console.log("saving item " + item.id);
             localStorage.setItem("item_list", JSON.stringify(itemList));
+            showItemOnBar();
         },
         error: function(xhr, textStatus, error){
-          console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
+          showItemOnBar();
+          // console.log(xhr.statusText);
+          // console.log(textStatus);
+          // console.log(error);
       },
         beforeSend: setHeader
         });
