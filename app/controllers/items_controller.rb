@@ -19,6 +19,14 @@ class ItemsController < ApplicationController
         end
     end
 
+    def destroy
+        @item_list = ItemList.find(params[:item_list_id])
+        @item = @item_list.items.find(params[:id])
+        @item.destroy
+
+        render json: { :message => "Delete item #{params[:id]} success!" }
+    end
+
     private
     def item_params
         params.require(:item).permit!

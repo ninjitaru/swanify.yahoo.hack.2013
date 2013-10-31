@@ -8,7 +8,11 @@ class ItemListsController < ApplicationController
     end
 
     def show
-        @item_list = ItemList.find(params[:id])
+        @item_list = ItemList.find_by_id(params[:id])
+        if @item_list.nil?
+            @item_list = ItemList.new
+            @item_list.save
+        end
         respond_to do |format|
             format.json { render json: @item_list }
         end
@@ -21,5 +25,11 @@ class ItemListsController < ApplicationController
         if @item_list.save
             redirect_to @item_list
         end
+    end
+
+    def destroy
+        @item_list = ItemList.find(params[:id])
+        @item_list.destroy
+        render json: { :message => "Remove success!" }
     end
 end
