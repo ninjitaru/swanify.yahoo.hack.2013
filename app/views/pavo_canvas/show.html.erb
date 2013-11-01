@@ -11,10 +11,12 @@
     });
       });
   </script>
+  <%= javascript_tag "var item_list = #{@item_list.to_json};" %>
+
   <p>
     <div class="image_list">
       <% @item_list.items.each do |item| %>
-      <div class="draggable">
+      <div class="draggable" id=<%= item.id %>>
         <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
         <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
       </div>
