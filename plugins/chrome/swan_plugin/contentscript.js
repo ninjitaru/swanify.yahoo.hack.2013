@@ -18,9 +18,8 @@ function showTopBar() {
         'position': 'fixed',
         'left': '0px',
         'top': '-160px',
-        // 'overflow':'scroll',
-        'overflow-x':'scroll',
-        'overflow-y':'hidden',
+        'overflow':'auto',
+        'white-space': 'nowrap',
         'padding-top':'10px',
         'z-index': 9999,
         'max-width':'100%',
@@ -118,20 +117,67 @@ function printItemListSummary(itemList)
 
 // item functions
 
+var finalY;
+
 function showItemOnBar(item)
 {
     var topbar = $("div#topbar");
     // console.log(topbar);
-    var string = '<span><a href="#"><img class="swan" width="100px" height="140px" id="'+ item.id +'" src="'+ item.images[0] +'" /></a></span>';
+    var string = '<span><a href="#"><img class="swan draggable" width="100px" height="140px" id="'+ item.id +'" src="'+ item.images[0] +'" /></a></span>';
     var imgDom = $(string);
     imgDom.css({
-        'position' : 'relative',
+        // 'position' : 'relative',
         'padding-top' : '10px',
         'padding-left' : '10px',
-        'padding-right' : '10px'
+        'padding-right' : '10px',
+        'display': 'inline-block'
+        });
+    imgDom.draggable({
+            revert: "invalid" ,
+            zIndex : 999999,
+            opacity: 0.7, helper: "clone",
+            // helper: function(){
+            //     $copy = $(this).clone();
+            //     return $copy;},
+            appendTo: 'body',
+            scroll: false,
+            drag: function(event,ui) {
+                finalY = ui.helper.position().top;
+            },
+            stop: function(event,ui) {
+                if(finalY > 160)
+                {
+                    deleteItem(imgDom);
+                }
+            }
         });
     topbar.append(imgDom);
-    // $("span a img.swan").click(clearTopBar());
+}
+
+function deleteItem(itemDom)
+{
+    // itemDom.find("img").attr("id");
+    var itemID = itemDom.find("img").attr("id");
+
+    $.ajax({
+        type : "DELETE",
+        url : httpURL + "item_lists/"+username+"/items/"+itemID,
+        contentType: "application/json;charset=utf-8",
+        dataType : "json",
+        crossDomain: true,
+        success : function (msg) {
+            console.log("success");
+            itemDom.remove();
+        },
+        error: function(xhr, textStatus, error){
+          // showItemOnBar(item);
+          // console.log(xhr.statusText);
+          // console.log(textStatus);
+          // console.log(error);
+      },
+        beforeSend: setHeader
+        });
+
 }
 
 function getItemListID(userid) {
