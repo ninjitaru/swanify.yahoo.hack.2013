@@ -15,6 +15,14 @@ class PavoCanvasController < ApplicationController
             @canvas.owner = params[:id]
             @canvas.save
         end
+
+        respond_to do |format|
+            format.html {}
+            format.json { render json: {
+                :canvas => @canvas,
+                :item_list => @item_list
+                }}
+        end
     end
 
     def update

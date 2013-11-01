@@ -3,17 +3,23 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .image_list {
+    margin-left: auto;
+    margin-right: auto;
     height: 132px;
     padding-top: 33px;
+    padding-left: 7px;
+    padding-right: 7px;
     background-color: #231f20;
     opacity: 0.8;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 .draggable {
     width: 120px;
     height: 120px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 7px;
+    margin-right: 7px;
     display: inline-block;
 }
 
