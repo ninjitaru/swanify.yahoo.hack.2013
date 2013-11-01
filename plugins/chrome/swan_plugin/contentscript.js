@@ -1,6 +1,7 @@
 
 var username = "ninji";
 var httpURL = "http://pavo-prototype.herokuapp.com/";
+var canvasPath = "pavo_canvas/";
 
 //deleteItemList(username);
 getItemListID(username);
@@ -10,6 +11,7 @@ getItemListID(username);
 function showTopBar() {
     var isNew = true;
     var topbar = $("div#topbar");
+    var topleft;
     if(topbar.length == 0)
     {
         console.log("create topbar");
@@ -18,17 +20,42 @@ function showTopBar() {
         'position': 'fixed',
         'left': '0px',
         'top': '-160px',
-        'overflow':'auto',
-        'white-space': 'nowrap',
-        'padding-top':'10px',
         'z-index': 9999,
-        'max-width':'100%',
-        'max-height':'160px',
+        // 'max-width':'100%',
+        // 'max-height':'160px',
         'width': '100%',
         'height': '160px',
-        'background-color': 'white'  // Confirm it shows up
+        'background-color': 'white'
         });
         $('body').append(topbar);
+        topleft = $("<div id='topleftbar'></div>");
+        topleft.css({
+            'left': '0px',
+            'top': '0px',
+            // 'z-index': 9999,
+            'float':'left',
+            'padding-top' : '10px',
+            'overflow':'auto',
+            'white-space': 'nowrap',
+            'width': '80%',
+            'height': '150px',
+            'background-color': 'blue'  // Confirm it shows up
+        });
+        topbar.append(topleft);
+        var topright = $("<div id='toprightbar'></div>");
+        topright.css({
+            'top': '0px',
+            'float':'left',
+            'padding-top' : '10px',
+            'width': '20%',
+            'height': '150px',
+            'background-color': 'yellow'
+        });
+        topbar.append(topright);
+        topright.click(function() {
+            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username });
+        });
+        // topright.click(openCanvasPage());
     }
     else
     {
@@ -53,7 +80,7 @@ function showTopBar() {
 
 function clearTopBar()
 {
-    var topbar = $("div#topbar");
+    var topbar = $("div#topleftbar");
     if(topbar.length > 0)
     {
         topbar.empty();
@@ -121,13 +148,13 @@ var finalY;
 
 function showItemOnBar(item)
 {
-    var topbar = $("div#topbar");
+    var topbar = $("div#topleftbar");
     // console.log(topbar);
     var string = '<span><a href="#"><img class="swan draggable" width="100px" height="140px" id="'+ item.id +'" src="'+ item.images[0] +'" /></a></span>';
     var imgDom = $(string);
     imgDom.css({
         // 'position' : 'relative',
-        'padding-top' : '10px',
+        'padding-top' : '0px',
         'padding-left' : '10px',
         'padding-right' : '10px',
         'display': 'inline-block'
@@ -152,6 +179,13 @@ function showItemOnBar(item)
             }
         });
     topbar.append(imgDom);
+}
+
+function openCanvasPage()
+{
+    console.log("hihihi");
+    chrome.extension.sendMessage({ userid : username });
+    console.log("hihihi 22");
 }
 
 function deleteItem(itemDom)
@@ -218,7 +252,7 @@ function getItemListID(userid) {
         console.log("create user with item_list_id ");
         // console.log(msg);
         var itemList = msg;
-        var topbar = $("div#topbar");
+        var topbar = $("div#topleftbar");
         topbar.empty();
         for(var i = 0; i < itemList.items.length; i++)
         {
