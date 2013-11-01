@@ -1,21 +1,11 @@
+
 var username = "ninji";
+var httpURL = "http://pavo-prototype.herokuapp.com/";
 
-
-// deleteItemList(username);
+//deleteItemList(username);
 getItemListID(username);
 
-
-function setHeader(xhr) {
-
-  xhr.setRequestHeader('Authorization', '');
-}
-
-function printItemListSummary(itemList)
-{
-    console.log("item list id: " + itemList.id);
-    console.log("item list items count: " + itemList.items.length);
-    console.log(itemList);
-}
+// bar functions
 
 function showTopBar() {
     var isNew = true;
@@ -26,16 +16,20 @@ function showTopBar() {
         topbar = $("<div id='topbar'></div>");
         topbar.css({
         'position': 'fixed',
-        'right': '0px',
+        'left': '0px',
         'top': '-160px',
+        // 'overflow':'scroll',
+        'overflow-x':'scroll',
+        'overflow-y':'hidden',
+        'padding-top':'10px',
         'z-index': 9999,
+        'max-width':'100%',
+        'max-height':'160px',
         'width': '100%',
         'height': '160px',
         'background-color': 'white'  // Confirm it shows up
         });
         $('body').append(topbar);
-        // topbar.append('<input id="mybutton" type="button" value="My button">');
-        // $("input#mybutton").click(clearTopBar());
     }
     else
     {
@@ -52,11 +46,77 @@ function showTopBar() {
   500, 
   "linear", 
   function() {
-    autoHideBar();
+    //autoHideBar();
   }); 
 
   return isNew;
 }
+
+function clearTopBar()
+{
+    var topbar = $("div#topbar");
+    if(topbar.length > 0)
+    {
+        topbar.empty();
+    }
+}
+
+var idleInterval;
+
+function autoHideBar()
+{
+    idleTime = 0;
+
+   //Increment the idle time counter every second.
+   idleInterval = setInterval(timerIncrement, 1000);
+
+   function timerIncrement()
+   {
+     idleTime++;
+     if (idleTime > 12)
+     {
+        hideTopbarOut();
+     }
+   }
+
+   //Zero the idle timer on mouse movement.
+   var topbar = $("div#topbar");
+   topbar.mousemove(function(e){
+      idleTime = 0;
+   });
+
+   function hideTopbarOut()
+   {
+        topbar.animate(
+      {
+        top : "-160px"
+      }, 
+      500, 
+      "linear", 
+      function() {
+        topbar.remove();
+        console.log("leaving delete topbar");
+        clearInterval(idleInterval);
+      }); 
+         //Preload images, etc.
+       }
+}
+
+// helpers
+
+function setHeader(xhr) {
+
+  xhr.setRequestHeader('Authorization', '');
+}
+
+function printItemListSummary(itemList)
+{
+    console.log("item list id: " + itemList.id);
+    console.log("item list items count: " + itemList.items.length);
+    console.log(itemList);
+}
+
+// item functions
 
 function showItemOnBar(item)
 {
@@ -77,22 +137,21 @@ function showItemOnBar(item)
 function getItemListID(userid) {
 
     var isNew = showTopBar();
-    var value = localStorage.getItem("item_list");
-    var itemList = (value && JSON.parse(value));
-    if(itemList && itemList.id)
-    {
-        // printItemListSummary(itemList);
-        if(isNew)
-        {
-            for(var i = 0; i < itemList.items.length; i++)
-            {
-                showItemOnBar(itemList.items[i]);
-            }
-            console.log("already have an item list id " + itemList.id + ", sending data");
-            sendData(itemList);
-        }
-        return;
-    }
+    // var value = localStorage.getItem("item_list");
+    // var itemList = (value && JSON.parse(value));
+    // if(itemList && itemList.id)
+    // {
+    //     // printItemListSummary(itemList);
+    //     if(isNew)
+    //     {
+    //         // for(var i = 0; i < itemList.items.length; i++)
+    //         // {
+    //         //     showItemOnBar(itemList.items[i]);
+    //         // }
+    //         console.log("already have an item list id " + itemList.id + ", sending data");
+    //         sendData(itemList);
+    //     }
+    // }
     // else
     // {
     //     itemList = new Object();
@@ -105,18 +164,24 @@ function getItemListID(userid) {
     // my toen is id dont use this anymore
     $.ajax({
     type : "GET",
-    url : "http://pavo-prototype.herokuapp.com/item_lists/"+userid,
+    url : httpURL + "item_lists/"+userid,
     contentType: "application/json;charset=utf-8",
     dataType : "json",
     crossDomain: true,
     success : function (msg) { 
         console.log("create user with item_list_id ");
-        console.log(msg);
+        // console.log(msg);
         var itemList = msg;
+        var topbar = $("div#topbar");
+        topbar.empty();
+        for(var i = 0; i < itemList.items.length; i++)
+        {
+            showItemOnBar(itemList.items[i]);
+        }
         // itemList.id = msg.id;
         // itemList.items = [];
-        localStorage.setItem("item_list", JSON.stringify(itemList));
-        console.log("saved item_list_id");
+        // localStorage.setItem("item_list", JSON.stringify(itemList));
+        // console.log("saved item_list_id");
         // console.log(itemList);
         sendData(itemList);
         // chrome.extension.sendMessage({ item_list_id : msg.id });
@@ -152,11 +217,11 @@ function sendData(itemList)
     // find main image
     jQuery("img[class='main-image current']").each(function(index,img){
         var src = img.src;
-        if(src.match(/(gif|png|jpg|jpeg)$/))
-        {
+        // if(src.match(/(gif|png|jpg|jpeg)$/))
+        // {
             // console.log("found main image " + src);
             srcList.unshift(src);
-        }
+        // }
     });
     console.log("main image " + srcList[0]);
 
@@ -182,7 +247,7 @@ function sendData(itemList)
 
     $.ajax({
         type : "POST",
-        url : "http://pavo-prototype.herokuapp.com/item_lists/"+itemList.owner+"/items",
+        url : httpURL + "item_lists/"+itemList.owner+"/items",
         contentType: "application/json;charset=utf-8",
         dataType : "json",
         crossDomain: true,
@@ -190,8 +255,8 @@ function sendData(itemList)
         success : function (msg) {
             item.id = msg.id;
             itemList.items.push(item);
-            console.log("saving item " + item.id);
-            localStorage.setItem("item_list", JSON.stringify(itemList));
+            // console.log("saving item " + item.id);
+            // localStorage.setItem("item_list", JSON.stringify(itemList));
             showItemOnBar(item);
         },
         error: function(xhr, textStatus, error){
@@ -209,7 +274,7 @@ function deleteItemList(itemListID)
     localStorage.clear();
     $.ajax({
         type : "DELETE",
-        url : "http://pavo-prototype.herokuapp.com/item_lists/"+itemListID,
+        url : httpURL + "item_lists/"+itemListID,
         contentType: "application/json;charset=utf-8",
         dataType : "json",
         crossDomain: true,
@@ -224,52 +289,4 @@ function deleteItemList(itemListID)
       },
         beforeSend: setHeader
         });
-}
-
-function clearTopBar()
-{
-    var topbar = $("div#topbar");
-    if(topbar.length > 0)
-    {
-        topbar.empty();
-    }
-}
-
-function autoHideBar()
-{
-    idleTime = 0;
-
-   //Increment the idle time counter every second.
-   var idleInterval = setInterval(timerIncrement, 1000);
-
-   function timerIncrement()
-   {
-     idleTime++;
-     if (idleTime > 3)
-     {
-       doPreload();
-     }
-   }
-
-   //Zero the idle timer on mouse movement.
-   var topbar = $("div#topbar");
-   topbar.mousemove(function(e){
-      idleTime = 0;
-   });
-
-   function doPreload()
-   {
-        topbar.animate(
-      {
-        top : "-160px"
-      }, 
-      500, 
-      "linear", 
-      function() {
-        topbar.remove();
-        console.log("leaving delete topbar");
-        clearInterval(idleInterval);
-      }); 
-         //Preload images, etc.
-       }
 }
