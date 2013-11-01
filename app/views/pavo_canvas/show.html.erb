@@ -1,27 +1,71 @@
 <head>
   <%= javascript_include_tag "jquery-1.10.2.min.js" %>
   <%= javascript_include_tag "jquery-ui-1.10.3.custom.js" %>
-  <%= stylesheet_link_tag "gallery_page.css" %>
 </head>
 
 <body>
   <script type="text/javascript">
   $(function ( event, ui ) {
-      $( ".draggable" ).draggable({
-          revert: 'invalid',
-      });
-    });
+    $( ".draggable" ).draggable({
+      revert: 'invalid',
+    });
+      });
   </script>
-<p>
-  <h1>Welcome to Swanify</h1>
-  <div class="image_list">
-    <% @item_list.items.each do |item| %>
+  <p>
+    <div class="image_list">
+      <% @item_list.items.each do |item| %>
       <div class="draggable">
-        <a href="#"><%= image_tag item.images[0] %></a>
+        <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
+        <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
       </div>
-    <% end %>
-  </div>
-  <strong>Owner:</strong>
-  <%= @canvas.owner %>
+      <% end %>
+    </div>
+    <div id="content">
+      <div id="canvas"></div>
+      <div id="template_selector"></div>
+    </div>
+    <div style="margin-left: 90%">
+      <strong>Owner: <%= @canvas.owner %></strong>
+    </div>
+
+    <script type="text/javascript">
+    function setTemplate(template)
+    {
+      var canvas = $("#canvas");
+      canvas.empty();
+      var items = template.items;
+
+      for(var index in items)
+      {
+       var canvasItem = $('<div class="canvas_item"></div>');
+       var item = items[index];
+       canvasItem.css("left", item[0] + "px");
+       canvasItem.css("top", item[1] + "px");
+       canvasItem.css("width", item[2] + "px");
+       canvasItem.css("height", item[3] + "px");
+       canvas.append(canvasItem);
+     }
+   }
+
+   var currentTemplate = templates[0];
+   setTemplate(currentTemplate);
+
+   var templateSelector = $("#template_selector");
+   for(var index in templates)
+   {
+    var template = templates[index];
+    var templateItem = $('<img class="template_item">');
+    templateItem.attr('src', template.image);
+    templateItem.click(function() {
+      var t = template
+      return function(){
+        setTemplate(t)
+      }
+    }());
+    templateItem.appendTo(templateSelector);
+  }
+
+
+  </script>
 </p>
 </body>
