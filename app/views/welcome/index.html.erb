@@ -2,43 +2,36 @@
 <head>
 	<%= javascript_include_tag "jquery-1.10.2.min.js" %>
 	<%= javascript_include_tag "jquery-ui-1.10.3.custom.js" %>
-	<%= stylesheet_link_tag "gallery_page.css" %>
 </head>
 
 <body>
 	<script type="text/javascript">
 	$(function ( event, ui ) {
 	    $( ".draggable" ).draggable({
-	        revert: 'invalid',
+	        revert: "invalid",
+	        helper: 'clone',
+	    });	
+	    $( ".droppable" ).droppable({
+	        drop: function( event, ui ) {
+	    		
+	    	}
 	    });	
     });
-
-	function generateContent() {
-		var getUrl = 'http://pavo-prototype.herokuapp.com/item_list/1';
-		$.get(getUrl,
-			{},
-			function(response) {
-				console.log('Success!');
-			}, "json"
-		);
-	}
-
-    generateContent();
 	</script>
 
 	<div id="gallery_page">
 		<div class="image_list">
-			<div class="draggable"><a href="#"><img id="imgList_item1" src="/assets/1.jpg" /></a></div>
-			<div class="draggable"><a href="#"><img id="imgList_item2" src="/assets/2.jpg" /></a></div>
-			<div class="draggable"><a href="#"><img id="imgList_item3" src="/assets/3.jpg" /></a></div>
+			<a href="#"><img id="imgList_item1" class="draggable" src="/assets/1.jpg" /></a>
+			<a href="#"><img id="imgList_item2" class="draggable" src="/assets/2.jpg" /></a>
+			<a href="#"><img id="imgList_item3" class="draggable" src="/assets/3.jpg" /></a>
 		</div>
 
 		<div class="content">
-			<div id="big_content_item"><a href="#"><img id="contentImg1" src="/assets/1.jpg" /></a></div>
-			<div><a href="#"><img id="contentImg2" src="/assets/2.jpg" /></a></div>
-			<div><a href="#"><img id="contentImg3" src="/assets/3.jpg" /></a></div>
-			<div><a href="#"><img id="contentImg4" src="/assets/4.jpg" /></a></div>
-			<div><a href="#"><img id="contentImg5" src="/assets/5.jpg" /></a></div>
+			<a href="#"><img id="contentImg1" class="droppable" src="/assets/1.jpg" /></a>
+			<a href="#"><img id="contentImg2" class="droppable" src="/assets/2.jpg" /></a>
+			<a href="#"><img id="contentImg3" class="droppable" src="/assets/3.jpg" /></a>
+			<a href="#"><img id="contentImg4" class="droppable" src="/assets/4.jpg" /></a>
+			<a href="#"><img id="contentImg5" class="droppable" src="/assets/5.jpg" /></a>
 		</div>
 
 		<div class="template_list">
