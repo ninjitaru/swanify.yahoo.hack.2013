@@ -3,33 +3,50 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .image_list {
-    height: 100px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #000000;
+    height: 132px;
+    padding-top: 33px;
+    background-color: #231f20;
+    opacity: 0.8;
 }
 
-.image_list img {
-    width: 100px;
-    height: 100px;
-    margin-right: 5px;
+.draggable {
+    width: 120px;
+    height: 120px;
     margin-left: 5px;
-    float: left;
+    margin-right: 5px;
+    display: inline-block;
 }
 
-.content {
-    width: 400px;
-    height: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 100px;
-    padding-bottom: 100px;
+.image_list .item_image {
+    width: 120px;
+    height: 120px;
+    float: left;
+    border-radius: 4px;
+}
+
+.change_picture_button {
+    width: 16px;
+    height: 15px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
 }
 
 #big_content_item img {
     width: 200px;
     height: 200px;
     float: left;
+}
+
+body{
+    background: #eefbfb; /* Old browsers */
+    background: -moz-linear-gradient(top,  #eefbfb 0%, #c5ebe8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eefbfb), color-stop(100%,#c5ebe8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #eefbfb 0%,#c5ebe8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eefbfb', endColorstr='#c5ebe8',GradientType=0 ); /* IE6-9 */
 }
 
 .content img {
@@ -48,15 +65,23 @@
     clear:both;
 }
 
+#content {
+    width: 640px;
+    height: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10pt;
+    background-color: #eefbfb
+}
+
 #canvas
 {
     position: relative;
-    width: 600px;
-    height: 400px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    width: 600px;
+    height: 400px;
 }
 
 .canvas_item
@@ -67,12 +92,13 @@
 
 #template_selector
 {
-    background-color: black;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .template_item
 {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 60px;
     margin: 2px;
 }

@@ -12,19 +12,21 @@
       });
   </script>
   <p>
-    <h1>Welcome to Swanify</h1>
-
-    <strong>Owner: <%= @canvas.owner %></strong>
-
     <div class="image_list">
       <% @item_list.items.each do |item| %>
       <div class="draggable">
-        <a href="#"><%= image_tag item.images[0] %></a>
+        <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
+        <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
       </div>
       <% end %>
     </div>
-    <div id="canvas"></div>
-    <div id="template_selector"></div>
+    <div id="content">
+      <div id="canvas"></div>
+      <div id="template_selector"></div>
+    </div>
+    <div style="margin-left: 90%">
+      <strong>Owner: <%= @canvas.owner %></strong>
+    </div>
 
     <script type="text/javascript">
     function setTemplate(template)
