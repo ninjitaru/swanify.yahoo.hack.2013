@@ -53,7 +53,7 @@ function showTopBar() {
         });
         topbar.append(topright);
         topright.click(function() {
-            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username });
+            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
         });
         // topright.click(openCanvasPage());
     }
