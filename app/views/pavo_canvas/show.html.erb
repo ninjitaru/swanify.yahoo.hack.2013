@@ -10,6 +10,8 @@
   <%= javascript_tag "var is_my_canvas = #{@is_my_canvas};" %>
 
   <script type="text/javascript">
+  var token = "picker";
+
   function getItem(itemId)
   {
     for(var i in item_list.items)
@@ -47,6 +49,7 @@
     {
       helper: 'clone',
       revert: 'invalid',
+      appendTo: 'body',
     });
 
     $( ".canvas_item" ).droppable({
@@ -60,7 +63,42 @@
   function setItem(item, canvasItem)
   {
     var imgUrl = "url(" + item.images[0] + ")";
-    var imageItem = $('<div id="image_item"></div>').css({
+    canvasItem.find('div').attr('id', item.id);
+    canvasItem.find('div').css({
+      'background-image': imgUrl,
+      'background-position':'center',
+      'background-repeat':'no-repeat',
+      'display': 'block',
+      'height': canvasItem.height(),
+      'width': canvasItem.width(),
+      'background-size': 'auto 300px',
+      'top' : canvasItem.scrollLeft(),
+      'left' : canvasItem.scrollTop(),
+      'z-index':9999,
+    });
+    
+    // Set the new candidate item
+    var canvasId = canvasItem.attr('id');
+    var itemId = canvasItem.find('div').attr('id');
+    var coverItemId = parseInt(itemId);
+    
+    canvas.objects[canvasId].cover_item = coverItemId;
+    canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
+    var url = '/pavo_canvas/' + canvas.owner;
+    console.log(JSON.stringify(canvas));
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json; charset=utf-8",
+      url: url,
+      data: JSON.stringify({ "pavo_canva" : canvas }),
+      dataType: "json"
+    });
+  }
+
+  function addItem(item, canvasItem)
+  {
+    var imgUrl = "url(" + item.images[0] + ")";
+    var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
@@ -74,14 +112,15 @@
     });
     canvasItem.append(imageItem);
   }
+
   </script>
   <div class="swan_topbar">
     <div class="image_list">
       <% @item_list.items.reverse_each do |item| %>
-      <div class="draggable" id=<%= item.id %>>
-        <%= image_tag item.images[0], :class => "item_image", :id => item.id %>
+      <!--div class="draggable" id=<%= item.id %>-->
+        <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
         <!--%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %-->
-      </div >
+      <!--/div -->
       <% end %>
     </div>
     <div class="swan_textbar"><a target="_blank"></a></div>
