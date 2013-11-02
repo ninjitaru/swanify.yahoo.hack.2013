@@ -187,6 +187,29 @@
 
     return imageItem;
   }
+
+  $(document).ready(function(){
+    $(".detailToggleBtn").hover(
+      function() {
+        $(this).css({
+          'background-image' : 'url(/assets/info_btn_over.png)',
+          'width' : '30px',
+          'height' : '30px',
+        })
+      }, 
+      function() {
+        $(this).css({
+          'background-image' : 'url(/assets/info_btn.png)',
+          'width' : '30px',
+          'height' : '30px',
+        })
+      }
+    );
+
+    $(".detailToggleBtn").click(function() {
+      $(".priceBar").fadeToggle();
+    });
+  });
   </script>
 
   <div class="swan_topbar">
@@ -206,6 +229,7 @@
     <div class="leftcontent">
     <!--img style="text-align:center;" src="<%= asset_path('text_info.png') %>"/-->
   </div>
+    <div class="detailToggleBtn"></div>
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>

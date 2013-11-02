@@ -186,10 +186,10 @@ body{
 .rightcontent
 {
     width: 226px;
-    height: 100%;
-    top: 180px;
-    left: 866px;
-    position: absolute;
+height: 100%;
+top: 0px;
+left: 640px;
+position: absolute;
 }
 
 .rightcontent img
@@ -222,7 +222,8 @@ body{
     margin-left: auto;
     margin-right: auto;
     margin-top: 10pt;
-    background-color: #eefbfb
+    background-color: #eefbfb;
+    position: relative;
 }
 
 #canvas
@@ -280,6 +281,17 @@ div.like_div
 div.suck_div
 {
     background-image: image-url("suck_btn.png");
+}
+
+div.detailToggleBtn
+{
+    width: 30px; 
+    height: 30px;
+    position : absolute;
+    top : 0px;
+    right : -30px;
+    background-image: image-url("info_btn.png");
+    float: left;
 }
 
 .text_div
