@@ -197,8 +197,8 @@ function showItemOnBar(item, front)
         $("img.swan").css("border-width", "1px");
         $("div.swaninnertext").css("left", "1px");
         $("div.swaninnertext").css("top", "-29px");
-        $("div#toptext a").attr("href", item.url);
-        $("div#toptext a").text(item.title);
+        $("div.swan_textbar a").attr("href", item.url);
+        $("div.swan_textbar a").text(item.title);
         $(this).find("div.swaninnertext").css("left","3px");
         $(this).find("div.swaninnertext").css("top","-30px");
         $(this).find("img").css("border-width", "3px"); 

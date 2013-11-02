@@ -20,6 +20,31 @@
     }
   }
 
+$(document).ready(function() {
+  $("img.item_image").click(function(){
+    var itemID = $(this).attr("id");
+    var item = getItem(itemID);
+    // $("div.swan_textbar").text(item.title);
+    // $("div.swan_textbar").unbind();
+    // $("div.swan_textbar").click(function(){
+    //   console.log("sending");
+    //   chrome.extension.sendMessage({ type : "newtab", canvasURL : item.url });
+    // });
+    
+    $("div.swan_textbar a").attr("href", item.url);
+    $("div.swan_textbar a").text(item.title);
+    $("img.item_image").css("border-width", "1px");
+    $(this).css("border-width", "3px");
+  });
+});
+
+  function draggable_clicked()
+  {
+    var item = getItem(this.id);
+    $("div.swan_textbar a").attr("href", item.url);
+    $("div.swan_textbar a").text(item.title);
+  }
+
   $(function ( event, ui )
   {
     $( ".draggable" ).draggable(
@@ -54,17 +79,17 @@ function setItem(item, canvasItem)
   canvasItem.append(imageItem);
 }
 </script>
-
-<p>
+<div class="swan_topbar">
   <div class="image_list">
     <% @item_list.items.reverse_each do |item| %>
     <div class="draggable" id=<%= item.id %>>
-      <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
-      <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
-      <div class="item_title"><%= item.title %></div>
+      <%= image_tag item.images[0], :class => "item_image", :id => item.id %>
+      <!--%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %-->
     </div >
     <% end %>
   </div>
+  <div class="swan_textbar"><a target="_blank"></a></div>
+</div>
 
   <div id="content">
     <div id="canvas"></div>
@@ -98,6 +123,7 @@ function setItem(item, canvasItem)
    }
  }
 
+
  var currentTemplate = getTemplate(canvas.template_id)
  setTemplate(currentTemplate);
 
@@ -130,5 +156,5 @@ for(var index in templates)
 }
 
 </script>
-</p>
+
 </body>

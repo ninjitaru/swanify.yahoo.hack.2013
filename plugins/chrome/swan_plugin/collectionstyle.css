@@ -19,7 +19,7 @@
     left : 0px;
     top: 5px;
     float:left;
-    overflow':auto;
+    overflow:auto;
     overflow-y:hidden;
     white-space: nowrap;
     background-color: #fffffb;
@@ -41,9 +41,9 @@
 {
 	position : absolute;
     float : none;
-    top : '10px;
-    left : '10px;
-    color : 'black;
-    width : '70%;
+    top : 10px;
+    left : 10px;
+    color : black;
+    width : 70%;
     height : 20px;
 }
