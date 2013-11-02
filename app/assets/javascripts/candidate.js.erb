@@ -8,9 +8,19 @@ function showCandidate(object, canvasItem)
     selector.animate({opacity:1});
     selector.css('visibility', 'visible')
 
-    var closeBtn = $('<img class="delete_btn_over hover_scale" />');
-    closeBtn.attr('src', '<%= asset_path("delete_btn_over.png") %>')
-    closeBtn.appendTo(selector);
+    // var closeBtn = $('<img class="delete_btn_over hover_scale" />');
+    // closeBtn.attr('src', '<%= asset_path("delete_btn_over.png") %>')
+    // closeBtn.appendTo(selector);
+    // closeBtn.click(function(){
+    //     $('.selector_item').show();
+    //     selector.animate({opacity:0}, function(){
+    //         selector.css('visibility', 'hidden');
+    //     });
+    //     canvasItem.removeClass('canvas_item_selected');
+    //     isShowCandidate = false;
+    // });
+    var closeBtn = $('.delete_btn_over');
+    closeBtn.show();
     closeBtn.click(function(){
         $('.selector_item').show();
         selector.animate({opacity:0}, function(){
@@ -18,6 +28,7 @@ function showCandidate(object, canvasItem)
         });
         canvasItem.removeClass('canvas_item_selected');
         isShowCandidate = false;
+        closeBtn.hide();
     });
 
     var canditates = object.canditates;

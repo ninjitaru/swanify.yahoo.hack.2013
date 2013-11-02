@@ -359,6 +359,7 @@ div.detailToggleBtn
 {
     padding-left: 20px;
     padding-right: 20px;
+    clip: rect(0px, 620px, 150px, 0px);
 }
 
 .overlay
@@ -435,8 +436,9 @@ div.detailToggleBtn
 .delete_btn_over
 {
     position: absolute;
-    right: 10px;
-    top: 0;
+    right: 8px;
+    top: -10px;
+    z-index: 99999;
 }
 
 .selector_item

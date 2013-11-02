@@ -213,7 +213,7 @@
         $(this).css({
           'background-image' : 'url(/assets/info_btn_over.png)',
         })
-      }, 
+      },
       function() {
         $(this).css({
           'background-image' : 'url(/assets/info_btn.png)',
@@ -249,15 +249,15 @@
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>
-      <div id="canditate_selector" class="overlay horizontal_scroll">
-      </div>
+      <div id="canditate_selector" class="overlay horizontal_scroll"></div>
+      <img class="delete_btn_over hover_scale" src='<%= asset_path("delete_btn_over.png") %>' />
     </div>
     <div class="rightcontent">
     <img src="<%= asset_path('text_info.png') %>"/>
     <img class="swan_share_btn" src="<%= asset_path('share_btn.png') %>"/>
   </div>
   </div>
-  
+
   <div style="margin-left: 90%">
     <strong>Owner: <%= @canvas.owner %></strong>
   </div>
@@ -274,5 +274,8 @@
     //   $(this).css("border-width", "3px");
     // });
   initTemplate();
+  var closeBtn = $('.delete_btn_over');
+  closeBtn.hide();
+
   </script>
 </body>
