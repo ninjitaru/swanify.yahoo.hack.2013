@@ -5,19 +5,41 @@
 
 <body>
   <script type="text/javascript">
+  function searchImageItemById (draggableItemId) {
+    for (var i = 0; i < item_list.items.length; i++) {
+      var id = item_list.items[i].id;
+      if (id == draggableItemId) {
+        return item_list.items[i];
+      }
+    }
+    return -1;
+  };
+
   $(function ( event, ui ) {
     $( ".draggable" ).draggable({
       helper: 'clone',
       revert: 'invalid',
     });
+
     $( ".canvas_item" ).droppable({
         drop: function( event, ui ) {
-          $(this).append(ui.draggable.children("a").trigger("create"));
+          var matchedItem = searchImageItemById(ui.draggable.attr('id'));
+          var imgUrl = "url(" + matchedItem.images[0] + ")";
+          
           var _canvasItem = $(this);
-          $(this).find("img.item_image").css("left", _canvasItem.scrollLeft());
-          $(this).find("img.item_image").css("right", _canvasItem.scrollTop());
-          $(this).find("img.item_image").css("width", _canvasItem.width());
-          $(this).find("img.item_image").css("height", _canvasItem.height());
+          var imageItem = $('<div id="image_item"></div>').css({
+            'background-image': imgUrl,
+            'background-position':'center',
+            'background-repeat':'no-repeat',
+            'display': 'block',
+            'height': _canvasItem.height(),
+            'width': _canvasItem.width(),
+            'background-size': 'auto 300px',
+            'top' : _canvasItem.scrollLeft(),
+            'left' : _canvasItem.scrollTop(),
+            'z-index':9999,
+          });
+          $(this).append(imageItem);
         }
     }); 
   });
