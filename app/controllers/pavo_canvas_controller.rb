@@ -24,6 +24,7 @@ class PavoCanvasController < ApplicationController
                 item_json = ActiveSupport::JSON.decode(item.to_json)
                 item_json["like"] = Set.new
                 item_json["suck"] = Set.new
+                item_json["owner"] = params[:id]
 
                 obj = {
                     :cover_item => item.id,

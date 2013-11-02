@@ -1,0 +1,46 @@
+function showCandidate(object)
+{
+    var selector = $('#canditate_selector').empty();
+    selector.css('opacity', 0);
+    selector.animate({opacity:1});
+    selector.css('visibility', 'visible')
+
+    var closeBtn = $('<img class="delete_btn_over hover_scale" />');
+    closeBtn.attr('src', '<%= asset_path("delete_btn_over.png") %>')
+    closeBtn.appendTo(selector);
+    closeBtn.click(function(){
+        $('.selector_item').show();
+        selector.animate({opacity:0}, function(){
+            selector.css('visibility', 'hidden');
+        });
+    });
+
+    var canditates = object.canditates;
+
+    for(var k in canditates)
+    {
+        var canditateItem = canditates[k];
+
+        var selector_div = $('<img class="canditate_item hover_scale" />');
+        selector_div.attr('src', canditateItem.images[0]);
+        var onClick = function(canditateItem)
+        {
+            return function(){
+                $('.canditate_item').removeClass('item_selected');
+                $(this).addClass('item_selected');
+
+
+            };
+        }(canditateItem);
+
+        selector_div.click(onClick);
+        selector_div.appendTo(selector);
+
+        if (parseInt(k) == object.cover_item)
+        {
+            selector_div.click();
+        }
+    }
+
+    $('.selector_item').hide();
+}
