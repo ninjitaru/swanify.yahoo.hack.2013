@@ -91,6 +91,7 @@ function createReviewButton(review, item)
             data: JSON.stringify(postData),
             dataType: "json",
         }).done(function( data ) {
+            
             var value = parseInt(buttonText.text());
             if(buttonDiv.toggleClass('no_review_div').hasClass('no_review_div'))
             {
@@ -99,6 +100,31 @@ function createReviewButton(review, item)
             else
             {
                 value++;
+
+                var heartImage =  "<%= asset_path('heart_black.png') %>";
+                if(buttonDiv.hasClass("like_div"))
+                    heartImage = "<%= asset_path('heart_red.png') %>";
+
+                var heart = $("<div><img width='100%' height='100%' src= '"+heartImage+"'/></div>");
+                var offset = buttonDiv.offset();
+                heart.css({
+                    'position':'absolute',
+                    'width' : '14px',
+                    'height' : '10px',
+                    'left' : (offset.left + 13),
+                    'top' : (offset.top - 10),
+                    'opacity' : 0.2,
+                });
+                $('body').append(heart);
+                
+                heart.animate({
+                    opacity: 1,
+                    top: "-=20",
+                    // width : "+=4",
+                    // height : "+=8",
+                  }, 500, function() {
+                    heart.remove();
+                  });
             }
             buttonText.text(value);
         });

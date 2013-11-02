@@ -68,7 +68,7 @@ body
     display: inline-block;
 }
 
-.image_list .swan_image .item_image 
+.image_list .swan_image .item_image
 {
     width: 120px;
     height: 120px;
@@ -86,7 +86,7 @@ body
     top : 5px;
     left : 10px;
     color : black;
-    width : 100%;
+    width : 90%;
     height : 20px;
     background-color : #fffffb;
 }
@@ -121,14 +121,18 @@ body
 }
 
 body{
-    background: #eefbfb; /* Old browsers */
-    background: -moz-linear-gradient(top,  #eefbfb 0%, #c5ebe8 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eefbfb), color-stop(100%,#c5ebe8)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #eefbfb 0%,#c5ebe8 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eefbfb', endColorstr='#c5ebe8',GradientType=0 ); /* IE6-9 */
+    background-image : image-url("texture.png");
+    background-repeat : repeat;
+    background-color : #c5ebe8;
+
+    //background: #eefbfb; /* Old browsers */
+   // background: -moz-linear-gradient(top,  #eefbfb 0%, #c5ebe8 100%); /* FF3.6+ */
+   // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eefbfb), color-stop(100%,#c5ebe8)); /* Chrome,Safari4+ */
+ //   background: -webkit-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Chrome10+,Safari5.1+ */
+  //  background: -o-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* Opera 11.10+ */
+  //  background: -ms-linear-gradient(top,  #eefbfb 0%,#c5ebe8 100%); /* IE10+ */
+  //  background: linear-gradient(to bottom,  #eefbfb 0%,#c5ebe8 100%); /* W3C */
+  //  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eefbfb', endColorstr='#c5ebe8',GradientType=0 ); /* IE6-9 */
 }
 
 .content img {
@@ -178,14 +182,14 @@ body{
     bottom: 0;
     right: 0;
     margin-right: 3px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
 }
 
 div.review_div
 {
     width: 36px;
     height: 36px;
-    display: table-cell;
+    display: inline-block;
 }
 
 .hover_scale:hover
@@ -195,7 +199,7 @@ div.review_div
 
 div.no_review_div
 {
-    opacity: 0.5;
+    //opacity: 0.5;
 }
 
 div.no_review_div:hover
@@ -216,13 +220,14 @@ div.suck_div
 .text_div
 {
     color : white;
+    font-size : 10px;
     position: absolute;
     display : inline-block;
     text-align : center;
     width: 36px;
     height: 36px;
     line-height: 36px;
-    margin-top : 5px;
+    margin-top : 6px;
 }
 
 #selector
