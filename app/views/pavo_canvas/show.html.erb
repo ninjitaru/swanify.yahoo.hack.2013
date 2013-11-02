@@ -47,6 +47,7 @@
     {
       helper: 'clone',
       revert: 'invalid',
+      appendTo: 'body',
     });
 
     $( ".canvas_item" ).droppable({
@@ -78,10 +79,10 @@
   <div class="swan_topbar">
     <div class="image_list">
       <% @item_list.items.reverse_each do |item| %>
-      <div class="draggable" id=<%= item.id %>>
-        <%= image_tag item.images[0], :class => "item_image", :id => item.id %>
+      <!--div class="draggable" id=<%= item.id %>-->
+        <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
         <!--%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %-->
-      </div >
+      <!--/div -->
       <% end %>
     </div>
     <div class="swan_textbar"><a target="_blank"></a></div>
