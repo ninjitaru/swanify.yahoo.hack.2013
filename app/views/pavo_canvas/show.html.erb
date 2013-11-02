@@ -127,7 +127,7 @@
     var priceBar = imageItem.find('.priceBar');
     priceBar.css('width', imageItem.width() - 4);
     priceBar.css('left', imageItem.scrollLeft());
-    priceBar.text(item.price);
+    priceBar.text("$ " + item.price);
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
