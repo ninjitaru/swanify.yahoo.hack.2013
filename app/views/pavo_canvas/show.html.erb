@@ -78,20 +78,10 @@
       'left' : canvasItem.scrollTop(),
       'z-index':998,
     });
-    imageItem.find('.priceBar').css({
-        'color': 'white',
-        'position' : 'absolute',
-        'float' : 'none',
-        'border-radius': '0 0 2px 2px',
-        'background-color': 'rgba(0, 0, 0, 0.6)',
-        'width': imageItem.width(),
-        'height' : '40px',
-        'left' : imageItem.scrollLeft(),
-        'bottom' : '0px',
-        'display': 'inline-block',
-        'font-size' : '20px',
-    });
-    imageItem.find('.priceBar').text(item.price);
+    var priceBar = imageItem.find('.priceBar');
+    priceBar.css('width', imageItem.width());
+    priceBar.css('left', imageItem.scrollLeft());
+    priceBar.text(item.price);
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
@@ -144,19 +134,8 @@
     imageItem.appendTo(canvasItem);
 
     var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
-    priceBar.css({
-        'color': 'white',
-        'position' : 'absolute',
-        'float' : 'none',
-        'border-radius': '0 0 2px 2px',
-        'background-color': 'rgba(0, 0, 0, 0.6)',
-        'width': imageItem.width(),
-        'height' : '40px',
-        'left' : imageItem.scrollLeft(),
-        'bottom' : '0px',
-        'display': 'inline-block',
-        'font-size' : '20px',
-    });
+    priceBar.css('width', imageItem.width());
+    priceBar.css('left', imageItem.scrollLeft());
     priceBar.appendTo(imageItem);
 
     return imageItem;
