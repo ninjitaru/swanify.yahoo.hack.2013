@@ -329,13 +329,14 @@ div.detailToggleBtn
 #selector
 {
     position: relative;;
-    height: 130px;
+    height: 160px;
 }
 
 #template_selector
 {
-    margin-left: 55px;
-    margin-right: 55px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 475px;
     margin-bottom: 25px;
 }
 
@@ -376,11 +377,53 @@ div.detailToggleBtn
     position: relative;
     display: inline-block;
     width: 120px;
-    height: 120px;
+    height: 140px;
     border-width : 1px;
     border-color : #a1dcd8;
     border-radius: 4px;
     border-style : solid;
+}
+
+.canditate_img
+{
+    width: 120px;
+    height: 120px;
+}
+
+.canditate_owner_div
+{
+    position: absolute;
+    bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    color: white;
+    font-size: 14pt;
+    border-radius : 0 0 4px 4px;
+    height : 20px;
+    width: 120px;
+    background-color :  rgba(0, 0, 0,0.6);
+    text-align: center;
+}
+
+.candidate_review_div
+{
+    margin-top: -5px;
+    margin-left: 30px;
+    margin-right: auto;
+}
+
+.review_small_item
+{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    color: black;
+}
+
+.small_text
+{
+    margin-bottom: -3px;
+    text-align: center;
 }
 
 .delete_btn_over
