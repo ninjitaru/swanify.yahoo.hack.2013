@@ -75,10 +75,9 @@
       'background-size': 'auto 300px',
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
-      'z-index':998
+      'z-index':998,
     });
-    var priceBar = imageItem.children('.priceBar');
-    priceBar.css({
+    imageItem.find('.priceBar').css({
         'color': 'white',
         'position' : 'absolute',
         'float' : 'none',
@@ -91,6 +90,7 @@
         'display': 'inline-block',
         'font-size' : '20px',
     });
+    imageItem.find('.priceBar').text(item.price);
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
@@ -99,6 +99,8 @@
 
     var item = getItem(itemId);
     item['owner'] = t;
+    item['suck'] = [];
+    item['like'] = [];
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
     {
@@ -110,7 +112,6 @@
   function submitCanvas()
   {
     var url = '/pavo_canvas/' + canvas.owner;
-    console.log(JSON.stringify(canvas));
     $.ajax({
       type: "PUT",
       contentType: "application/json; charset=utf-8",
