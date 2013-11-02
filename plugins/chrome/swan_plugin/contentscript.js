@@ -1,61 +1,51 @@
-
 var username = "ninji";
-var httpURL = "http://pavo-prototype.herokuapp.com/";
+var httpURL = "http://localhost:3000/";
 var canvasPath = "pavo_canvas/";
 
+appendCSS();
 //deleteItemList(username);
 getItemListID(username);
 
 // bar functions
 
+function appendCSS()
+{
+    $('<link rel="stylesheet" href="'+chrome.extension.getURL('collectionstyle.css')+'" type="text/css" />').appendTo('head');
+}
+
 function showTopBar() {
+
     var isNew = true;
-    var topbar = $("div#topbar");
-    var topleft;
+    var topbar = $("div.swan_topbar");
+    
     if(topbar.length == 0)
     {
         console.log("create topbar");
-        topbar = $("<div id='topbar'></div>");
-        topbar.css({
-        'position': 'fixed',
-        'left': '0px',
-        'top': '-160px',
-        'z-index': 9999,
-        // 'max-width':'100%',
-        // 'max-height':'160px',
-        'width': '100%',
-        'height': '160px',
-        'background-color': 'white'
-        });
-        $('body').append(topbar);
-        topleft = $("<div id='topleftbar'></div>");
-        topleft.css({
-            'left': '0px',
-            'top': '0px',
-            // 'z-index': 9999,
-            'float':'left',
-            'padding-top' : '10px',
-            'overflow':'auto',
-            'white-space': 'nowrap',
-            'width': '80%',
-            'height': '150px',
-            'background-color': 'blue'  // Confirm it shows up
-        });
+
+        topbar = $("<div class='swan_topbar'></div>");
+        var topleft = $("<div class='swan_item_list'></div>");
+        var topright = $("<div class='swan_plugin_edit_area'></div>");
+        topright.css("background-image",'url("'+chrome.extension.getURL('list_tab.png')+'")');
+        var toptext = $("<div class='swan_textbar'><a></a></div>");
+
         topbar.append(topleft);
-        var topright = $("<div id='toprightbar'></div>");
-        topright.css({
-            'top': '0px',
-            'float':'left',
-            'padding-top' : '10px',
-            'width': '20%',
-            'height': '150px',
-            'background-color': 'yellow'
-        });
         topbar.append(topright);
-        topright.click(function() {
-            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
+        topbar.append(toptext);
+        $('body').append(topbar);
+
+        var editbtn = $("<img src='"+chrome.extension.getURL('edit_btn.png')+"'/>");
+        editbtn.css({
+            'display' : 'block',
+            'position': 'relative',
+            'top': '50%',
+            'left': '50%',
+            'margin-top' : '-34px',
+            'margin-left' : '-34px',
         });
-        // topright.click(openCanvasPage());
+        topright.append(editbtn);
+        editbtn.click(function() {
+            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html?t=" + username });
+        });
     }
     else
     {
@@ -72,7 +62,7 @@ function showTopBar() {
   500, 
   "linear", 
   function() {
-    //autoHideBar();
+    autoHideBar();
   }); 
 
   return isNew;
@@ -80,7 +70,7 @@ function showTopBar() {
 
 function clearTopBar()
 {
-    var topbar = $("div#topleftbar");
+    var topbar = $("div.swan_item_list");
     if(topbar.length > 0)
     {
         topbar.empty();
@@ -94,21 +84,28 @@ function autoHideBar()
     idleTime = 0;
 
    //Increment the idle time counter every second.
-   idleInterval = setInterval(timerIncrement, 1000);
 
    function timerIncrement()
    {
      idleTime++;
-     if (idleTime > 12)
+     if (idleTime > 6)
      {
         hideTopbarOut();
      }
    }
 
    //Zero the idle timer on mouse movement.
-   var topbar = $("div#topbar");
+   var topbar = $("div.swan_topbar");
    topbar.mousemove(function(e){
       idleTime = 0;
+   });
+
+   topbar.mouseleave(function(){
+        idleInterval = setInterval(timerIncrement, 1000);
+   });
+   topbar.mouseenter(function(){
+        clearInterval(idleInterval);
+        idleInterval = null;
    });
 
    function hideTopbarOut()
@@ -121,7 +118,6 @@ function autoHideBar()
       "linear", 
       function() {
         topbar.remove();
-        console.log("leaving delete topbar");
         clearInterval(idleInterval);
       }); 
          //Preload images, etc.
@@ -146,26 +142,44 @@ function printItemListSummary(itemList)
 
 var finalY;
 
-function showItemOnBar(item)
+function showItemOnBar(item, front)
 {
-    var topbar = $("div#topleftbar");
+    // console.log(item);
+    front = true;
+    var topbar = $("div.swan_item_list");
     // console.log(topbar);
-    var string = '<span><a href="#"><img class="swan draggable" width="100px" height="140px" id="'+ item.id +'" src="'+ item.images[0] +'" /></a></span>';
+    var string = '<span><img class="swan draggable" style="border-radius: 4px;border-style:solid;border-width:1px;border-color:#a1dcd8;" width="120px" height="120px" id="'+ item.id +'" src="'+ item.images[0] +'"/></span>';
+    var textBlock = $("<div class='swaninnertext'>$ "+item.price+"</div>");
+    textBlock.css({
+        'color': 'white',
+        'position' : 'relative',
+        'float' : 'none',
+        'top' : '-29px',
+        'left' : '1px',
+   'font-sze': '14px',
+   'border-radius': '0 0 4px 4px',
+   // 'letter-spacing': '1px',
+   'width' : '110px',
+   'min-width' :'114px',
+   'height' : '20px',
+   'padding-top': '4px',
+   'padding-left' : '6px',
+   'background-color': 'rgba(0, 0, 0,0.6)'
+    });
+
     var imgDom = $(string);
+    imgDom.append(textBlock);
     imgDom.css({
-        // 'position' : 'relative',
-        'padding-top' : '0px',
-        'padding-left' : '10px',
-        'padding-right' : '10px',
-        'display': 'inline-block'
+        'padding-top' : '25px',
+        'padding-left' : '6px',
+        'padding-right' : '6px',
+        'padding-bottom' : '0px',
+        'display': 'inline-block',
         });
     imgDom.draggable({
             revert: "invalid" ,
             zIndex : 999999,
             opacity: 0.7, helper: "clone",
-            // helper: function(){
-            //     $copy = $(this).clone();
-            //     return $copy;},
             appendTo: 'body',
             scroll: false,
             drag: function(event,ui) {
@@ -178,7 +192,22 @@ function showItemOnBar(item)
                 }
             }
         });
-    topbar.append(imgDom);
+    imgDom.click(function(){
+
+        $("img.swan").css("border-width", "1px");
+        $("div.swaninnertext").css("left", "1px");
+        $("div.swaninnertext").css("top", "-29px");
+        $("div.swan_textbar a").attr("href", item.url);
+        $("div.swan_textbar a").text(item.title);
+        $(this).find("div.swaninnertext").css("left","3px");
+        $(this).find("div.swaninnertext").css("top","-30px");
+        $(this).find("img").css("border-width", "3px"); 
+    });
+
+    if(front)
+        topbar.prepend(imgDom);
+    else
+        topbar.append(imgDom);
 }
 
 function openCanvasPage()
@@ -204,10 +233,6 @@ function deleteItem(itemDom)
             itemDom.remove();
         },
         error: function(xhr, textStatus, error){
-          // showItemOnBar(item);
-          // console.log(xhr.statusText);
-          // console.log(textStatus);
-          // console.log(error);
       },
         beforeSend: setHeader
         });
@@ -217,29 +242,6 @@ function deleteItem(itemDom)
 function getItemListID(userid) {
 
     var isNew = showTopBar();
-    // var value = localStorage.getItem("item_list");
-    // var itemList = (value && JSON.parse(value));
-    // if(itemList && itemList.id)
-    // {
-    //     // printItemListSummary(itemList);
-    //     if(isNew)
-    //     {
-    //         // for(var i = 0; i < itemList.items.length; i++)
-    //         // {
-    //         //     showItemOnBar(itemList.items[i]);
-    //         // }
-    //         console.log("already have an item list id " + itemList.id + ", sending data");
-    //         sendData(itemList);
-    //     }
-    // }
-    // else
-    // {
-    //     itemList = new Object();
-    //     itemList.id = userid;
-    //     itemList.items = [];
-    //     localStorage.setItem("item_list", JSON.stringify(itemList));
-    //     sendData(itemList);
-    // }
 
     // my toen is id dont use this anymore
     $.ajax({
@@ -252,24 +254,16 @@ function getItemListID(userid) {
         console.log("create user with item_list_id ");
         // console.log(msg);
         var itemList = msg;
-        var topbar = $("div#topleftbar");
+        var topbar = $("div.swan_item_list");
         topbar.empty();
         for(var i = 0; i < itemList.items.length; i++)
         {
-            showItemOnBar(itemList.items[i]);
+            showItemOnBar(itemList.items[i],false);
         }
-        // itemList.id = msg.id;
-        // itemList.items = [];
-        // localStorage.setItem("item_list", JSON.stringify(itemList));
-        // console.log("saved item_list_id");
-        // console.log(itemList);
         sendData(itemList);
         // chrome.extension.sendMessage({ item_list_id : msg.id });
     },
     error: function(xhr, textStatus, error){
-      // console.log(xhr.statusText);
-      // console.log(textStatus);
-      // console.log(error);
   },
     beforeSend: setHeader
     });
@@ -320,6 +314,11 @@ function sendData(itemList)
 
     var item = new Object();
     item.url = document.URL;
+    var lastChar = item.url.substr(item.url.length - 1);
+    if(lastChar == "#")
+    {
+        item.url = item.url.slice(0,-1);
+    }
     item.price = price;
     item.images = srcList;
     item.title = document.title;
@@ -337,9 +336,11 @@ function sendData(itemList)
             itemList.items.push(item);
             // console.log("saving item " + item.id);
             // localStorage.setItem("item_list", JSON.stringify(itemList));
-            showItemOnBar(item);
+            console.log(" adddddd ------- item already exist -------");
+            showItemOnBar(item,true);
         },
         error: function(xhr, textStatus, error){
+            console.log("------- item already exist -------");
           // showItemOnBar(item);
           // console.log(xhr.statusText);
           // console.log(textStatus);

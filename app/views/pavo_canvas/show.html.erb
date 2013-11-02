@@ -6,6 +6,8 @@
 <body>
   <%= javascript_tag "var item_list = #{@item_list.to_json};" %>
   <%= javascript_tag "var canvas = #{@canvas.to_json};" %>
+  <%= javascript_tag "var t = '#{@t}';" %>
+  <%= javascript_tag "var is_my_canvas = #{@is_my_canvas};" %>
 
   <script type="text/javascript">
   var token = "picker";
@@ -20,6 +22,25 @@
         return item;
       }
     }
+  }
+
+  $(document).ready(function() {
+    $("img.item_image").click(function(){
+      var itemID = $(this).attr("id");
+      var item = getItem(itemID);
+
+      $("div.swan_textbar a").attr("href", item.url);
+      $("div.swan_textbar a").text(item.title);
+      $("img.item_image").css("border-width", "1px");
+      $(this).css("border-width", "3px");
+    });
+  });
+
+  function draggable_clicked()
+  {
+    var item = getItem(this.id);
+    $("div.swan_textbar a").attr("href", item.url);
+    $("div.swan_textbar a").text(item.title);
   }
 
   $(function ( event, ui )
@@ -38,68 +59,70 @@
     });
   });
 
-function setItem(item, canvasItem)
-{
-  var imgUrl = "url(" + item.images[0] + ")";
-  var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
-    'background-image': imgUrl,
-    'background-position':'center',
-    'background-repeat':'no-repeat',
-    'display': 'block',
-    'height': canvasItem.height(),
-    'width': canvasItem.width(),
-    'background-size': 'auto 300px',
-    'top' : canvasItem.scrollLeft(),
-    'left' : canvasItem.scrollTop(),
-    'z-index':9999,
-  });
-  canvasItem.find('div').replaceWith(imageItem);
+  function setItem(item, canvasItem)
+  {
+    var imgUrl = "url(" + item.images[0] + ")";
+    canvasItem.find('div').attr('id', item.id);
+    canvasItem.find('div').css({
+      'background-image': imgUrl,
+      'background-position':'center',
+      'background-repeat':'no-repeat',
+      'display': 'block',
+      'height': canvasItem.height(),
+      'width': canvasItem.width(),
+      'background-size': 'auto 300px',
+      'top' : canvasItem.scrollLeft(),
+      'left' : canvasItem.scrollTop(),
+      'z-index':9999,
+    });
+    
+    // Set the new candidate item
+    var canvasId = canvasItem.attr('id');
+    var itemId = canvasItem.find('div').attr('id');
+    var coverItemId = parseInt(itemId);
+    
+    canvas.objects[canvasId].cover_item = coverItemId;
+    canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
+    var url = '/pavo_canvas/' + canvas.owner;
+    console.log(JSON.stringify(canvas));
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json; charset=utf-8",
+      url: url,
+      data: JSON.stringify({ "pavo_canva" : canvas }),
+      dataType: "json"
+    });
+  }
 
-  // Set the new candidate item
-  var canvasId = canvasItem.attr('id');
-  var itemId = canvasItem.find('div').attr('id');
-  var coverItemId = parseInt(itemId);
-  canvas.objects[canvasId].cover_item = coverItemId;
-  canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
-  var url = '/pavo_canvas/' + canvas.owner;
-  $.ajax({
-    type: "PUT",
-    contentType: "application/json; charset=utf-8",
-    url: url,
-    data: JSON.stringify({ "pavo_canva" : canvas }),
-    dataType: "json"
-  });
-}
+  function addItem(item, canvasItem)
+  {
+    var imgUrl = "url(" + item.images[0] + ")";
+    var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
+      'background-image': imgUrl,
+      'background-position':'center',
+      'background-repeat':'no-repeat',
+      'display': 'block',
+      'height': canvasItem.height(),
+      'width': canvasItem.width(),
+      'background-size': 'auto 300px',
+      'top' : canvasItem.scrollLeft(),
+      'left' : canvasItem.scrollTop(),
+      'z-index':9999,
+    });
+    canvasItem.append(imageItem);
+  }
 
-function addItem(item, canvasItem)
-{
-  var imgUrl = "url(" + item.images[0] + ")";
-  var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
-    'background-image': imgUrl,
-    'background-position':'center',
-    'background-repeat':'no-repeat',
-    'display': 'block',
-    'height': canvasItem.height(),
-    'width': canvasItem.width(),
-    'background-size': 'auto 300px',
-    'top' : canvasItem.scrollLeft(),
-    'left' : canvasItem.scrollTop(),
-    'z-index':9999,
-  });
-  canvasItem.append(imageItem);
-}
-
-</script>
-
-<p>
-  <div class="image_list">
-    <% @item_list.items.reverse_each do |item| %>
-    <div class="draggable" id=<%= item.id %>>
-      <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
-      <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
-      <div class="item_title"><%= item.title %></div>
-    </div >
-    <% end %>
+  </script>
+  <div class="swan_topbar">
+    <div class="image_list">
+      <% @item_list.items.reverse_each do |item| %>
+      <div class="draggable" id=<%= item.id %>>
+        <%= image_tag item.images[0], :class => "item_image", :id => item.id %>
+        <!--%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %-->
+      </div >
+      <% end %>
+    </div>
+    <div class="swan_textbar"><a target="_blank"></a></div>
   </div>
 
   <div id="content">
@@ -112,61 +135,8 @@ function addItem(item, canvasItem)
 
   <script type="text/javascript">
 
-  var canvasItems;
+  initTemplate();
 
-  function setTemplate(template)
-  {
-    canvasItems = []
-    var canvas = $("#canvas");
-    canvas.empty();
-    var items = template.items;
+  </script>
 
-    for(var index in items)
-    {
-     var canvasItem = $('<div id="' + index + '" class="canvas_item"></div>');
-     var item = items[index];
-     canvasItem.css("left", item[0] + "px");
-     canvasItem.css("top", item[1] + "px");
-     canvasItem.css("width", item[2] + "px");
-     canvasItem.css("height", item[3] + "px");
-     canvas.append(canvasItem);
-     canvasItems.push(canvasItem);
-   }
- }
-
- var currentTemplate = getTemplate(canvas.template_id)
- setTemplate(currentTemplate);
-
-console.log(JSON.stringify(canvas));
-
- for(var i in canvas.objects)
- {
-  var obj = canvas.objects[i];
-  var coverItemId = obj.cover_item;
-  var coverItem = obj.canditates[coverItemId];
-
-  var canvasItem = canvasItems[i];
-  if(canvasItem)
-  {
-    addItem(coverItem, canvasItem)
-  }
-}
-
-var templateSelector = $("#template_selector");
-for(var index in templates)
-{
-  var template = templates[index];
-  var templateItem = $('<img class="template_item">');
-  templateItem.attr('src', template.image);
-  templateItem.click(function() {
-    var t = template
-    return function(){
-      setTemplate(t)
-    }
-  }());
-  templateItem.appendTo(templateSelector);
-}
-
-</script>
-</p>
 </body>

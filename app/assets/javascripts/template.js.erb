@@ -65,3 +65,87 @@ var templates =
         ]
     }
 ];
+
+ function createReviewButton(review, item)
+  {
+   var buttonDiv = $('<div class="'+ review +'_div"></div>');
+   buttonDiv.click(function(){
+    return function(){
+      var url = '/pavo_canvas/' + canvas.owner;
+      var postData = {
+        "review": review,
+        "token" : t,
+        "target_item": item.id
+      };
+
+      $.ajax({
+        type: "PUT",
+        contentType: "application/json; charset=utf-8",
+        url: url,
+        data: JSON.stringify(postData),
+        dataType: "json",
+      }).done(function( data ) {
+        alert(review + " success!!");
+      });
+    }
+  }());
+
+   var buttonText = $('<div class="text_div">'+ item[review].length +'</div>');
+   buttonText.appendTo(buttonDiv);
+
+   return buttonDiv;
+ }
+
+ function setTemplate(template)
+ {
+  var canvasDiv = $("#canvas");
+  canvasDiv.empty();
+  var items = template.items;
+
+  for(var i in items)
+  {
+   var canvasItem = $('<div id="' + i + '" class="canvas_item"></div>');
+   var templateItem = items[i];
+   canvasItem.css("left", templateItem[0] + "px");
+   canvasItem.css("top", templateItem[1] + "px");
+   canvasItem.css("width", templateItem[2] + "px");
+   canvasItem.css("height", templateItem[3] + "px");
+   canvasItem.appendTo(canvasDiv);
+
+   var obj = canvas.objects[i];
+   if(obj == null)
+   {
+    continue;
+  }
+  var coverItemId = obj.cover_item;
+  var coverItem = obj.canditates[coverItemId];
+  addItem(coverItem, canvasItem)
+
+  var buttonContainer = $('<div class="button_container"></div>');
+  buttonContainer.appendTo(canvasItem);
+
+  buttonContainer.append(createReviewButton("like", coverItem));
+  buttonContainer.append(createReviewButton("suck", coverItem));
+}
+}
+
+function initTemplate()
+{
+  var currentTemplate = getTemplate(canvas.template_id)
+setTemplate(currentTemplate);
+
+var templateSelector = $("#template_selector");
+for(var index in templates)
+{
+  var template = templates[index];
+  var templateItem = $('<img class="template_item">');
+  templateItem.attr('src', template.image);
+  templateItem.click(function() {
+    var t = template
+    return function(){
+      setTemplate(t)
+    }
+  }());
+  templateItem.appendTo(templateSelector);
+}
+}
