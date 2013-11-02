@@ -7,9 +7,20 @@
   <script type="text/javascript">
   $(function ( event, ui ) {
     $( ".draggable" ).draggable({
+      helper: 'clone',
       revert: 'invalid',
     });
-      });
+    $( ".canvas_item" ).droppable({
+        drop: function( event, ui ) {
+          $(this).append(ui.draggable.children("a").trigger("create"));
+          var _canvasItem = $(this);
+          $(this).find("img.item_image").css("left", _canvasItem.scrollLeft());
+          $(this).find("img.item_image").css("right", _canvasItem.scrollTop());
+          $(this).find("img.item_image").css("width", _canvasItem.width());
+          $(this).find("img.item_image").css("height", _canvasItem.height());
+        }
+    }); 
+  });
   </script>
   <%= javascript_tag "var item_list = #{@item_list.to_json};" %>
 
