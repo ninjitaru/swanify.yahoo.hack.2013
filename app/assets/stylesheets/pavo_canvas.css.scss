@@ -215,8 +215,14 @@ div.suck_div
 
 .text_div
 {
+    color : white;
     position: absolute;
-    margin: auto;
+    display : inline-block;
+    text-align : center;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin-top : 5px;
 }
 
 #selector
