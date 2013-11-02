@@ -68,7 +68,7 @@ var templates =
 
 function createReviewButton(review, item)
 {
-    var buttonDiv = $('<div class="'+ review +'_div review_div"></div>');
+    var buttonDiv = $('<div class="'+ review +'_div review_div hover_scale"></div>');
     var buttonText = $('<div class="text_div">'+ item[review].length +'</div>');
     buttonText.appendTo(buttonDiv);
 
@@ -140,12 +140,11 @@ function setTemplate(template)
         var coverItem = obj.canditates[coverItemId];
         var imageItem = addItem(coverItem, canvasItem);
 
-        imageItem.click(function(){
-            var o = obj;
+        imageItem.click(function(obj){
             return function(){
-                showCandidate(o);
+                showCandidate(obj);
             };
-        }());
+        }(obj));
 
         var buttonContainer = $('<div class="button_container"></div>');
         buttonContainer.appendTo(canvasItem);
