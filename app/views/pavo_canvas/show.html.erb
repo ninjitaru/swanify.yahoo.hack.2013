@@ -91,8 +91,13 @@
       'left' : canvasItem.scrollTop(),
       'z-index':998,
     });
+    var titleBar = imageItem.find('.titleBar');
+    titleBar.css('width', imageItem.width() - 4);
+    titleBar.css('left', imageItem.scrollLeft());
+    titleBar.text(item.title);
+
     var priceBar = imageItem.find('.priceBar');
-    priceBar.css('width', imageItem.width());
+    priceBar.css('width', imageItem.width() - 4);
     priceBar.css('left', imageItem.scrollLeft());
     priceBar.text(item.price);
 
@@ -158,8 +163,13 @@
 
     imageItem.appendTo(canvasItem);
 
+    var titleBar = $("<div class='titleBar'>$ " + item.title + "</div>");
+    titleBar.css('width', imageItem.width() - 4);
+    titleBar.css('left', imageItem.scrollLeft());
+    titleBar.appendTo(imageItem);
+
     var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
-    priceBar.css('width', imageItem.width());
+    priceBar.css('width', imageItem.width() - 4);
     priceBar.css('left', imageItem.scrollLeft());
     priceBar.appendTo(imageItem);
 
@@ -171,20 +181,17 @@
       function() {
         $(this).css({
           'background-image' : 'url(/assets/info_btn_over.png)',
-          'width' : '30px',
-          'height' : '30px',
         })
       }, 
       function() {
         $(this).css({
           'background-image' : 'url(/assets/info_btn.png)',
-          'width' : '30px',
-          'height' : '30px',
         })
       }
     );
 
     $(".detailToggleBtn").click(function() {
+      $(".titleBar").fadeToggle();
       $(".priceBar").fadeToggle();
     });
   });

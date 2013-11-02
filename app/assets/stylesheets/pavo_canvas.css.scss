@@ -39,17 +39,32 @@ body
     left : 9px;
 }
 
+.titleBar
+{
+    color : white;
+    position : absolute;
+    float : none;
+    font-size: 14px;
+    border-radius : 0 0 2px 2px;
+    height : 20px;
+    background-color :  rgba(0, 0, 0,0.6);
+    top : 0px;
+    padding-left: 4px;
+    overflow : hidden;
+}
+
 .priceBar
 {
     color : white;
     position : absolute;
     float : none;
-    font-size: 20px;
+    font-size: 18px;
     border-radius : 0 0 2px 2px;
-    min-width : 114px;
     height : 40px;
     background-color :  rgba(0, 0, 0,0.6);
     bottom : 0px;
+    padding-left: 4px;
+    overflow : hidden;
 }
 
 .image_list {
@@ -58,6 +73,7 @@ body
     float : left;
     left : 0px;
     top: 5px;
+    padding-left: 4px;
     background-color: #fffffb;
     width: 100%;
 }
