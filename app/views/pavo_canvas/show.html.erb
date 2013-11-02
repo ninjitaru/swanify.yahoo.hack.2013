@@ -119,10 +119,15 @@
       'left' : canvasItem.scrollTop(),
       'z-index':998,
     });
+    var titleBar = imageItem.find('.titleBar');
+    titleBar.css('width', imageItem.width() - 6);
+    titleBar.css('left', imageItem.scrollLeft());
+    titleBar.text(item.title);
+
     var priceBar = imageItem.find('.priceBar');
-    priceBar.css('width', imageItem.width());
+    priceBar.css('width', imageItem.width() - 6);
     priceBar.css('left', imageItem.scrollLeft());
-    priceBar.text(item.price);
+    priceBar.text("$ " + item.price);
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
@@ -135,6 +140,9 @@
       item['suck'] = [-1];
       item['like'] = [-1];
     }
+
+    createAllReviewButton(canvasItem, item);
+
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
     {
@@ -186,8 +194,13 @@
 
     imageItem.appendTo(canvasItem);
 
+    var titleBar = $("<div class='titleBar'>$ " + item.title + "</div>");
+    titleBar.css('width', imageItem.width() - 6);
+    titleBar.css('left', imageItem.scrollLeft());
+    titleBar.appendTo(imageItem);
+
     var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
-    priceBar.css('width', imageItem.width());
+    priceBar.css('width', imageItem.width() - 6);
     priceBar.css('left', imageItem.scrollLeft());
     priceBar.appendTo(imageItem);
 
@@ -199,20 +212,17 @@
       function() {
         $(this).css({
           'background-image' : 'url(/assets/info_btn_over.png)',
-          'width' : '30px',
-          'height' : '30px',
         })
-      }, 
+      },
       function() {
         $(this).css({
           'background-image' : 'url(/assets/info_btn.png)',
-          'width' : '30px',
-          'height' : '30px',
         })
       }
     );
 
     $(".detailToggleBtn").click(function() {
+      $(".titleBar").fadeToggle();
       $(".priceBar").fadeToggle();
     });
   });
@@ -239,15 +249,15 @@
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>
-      <div id="canditate_selector" class="overlay horizontal_scroll">
-      </div>
+      <div id="canditate_selector" class="overlay horizontal_scroll"></div>
+      <img class="delete_btn_over hover_scale" src='<%= asset_path("delete_btn_over.png") %>' />
     </div>
     <div class="rightcontent">
     <img style="padding-top: 20px;" src="<%= asset_path('text_info.png') %>"/>
     <img class="swan_share_btn" src="<%= asset_path('share_btn.png') %>"/>
   </div>
   </div>
-  
+
   <div style="margin-left: 90%">
     <strong>Owner: <%= @canvas.owner %></strong>
   </div>
@@ -264,5 +274,8 @@
     //   $(this).css("border-width", "3px");
     // });
   initTemplate();
+  var closeBtn = $('.delete_btn_over');
+  closeBtn.hide();
+
   </script>
 </body>

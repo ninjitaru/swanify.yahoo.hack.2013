@@ -1,18 +1,34 @@
+var isShowCandidate = false;
+
 function showCandidate(object, canvasItem)
 {
+    isShowCandidate = true;
     var selector = $('#canditate_selector').empty();
     selector.css('opacity', 0);
     selector.animate({opacity:1});
     selector.css('visibility', 'visible')
 
-    var closeBtn = $('<img class="delete_btn_over hover_scale" />');
-    closeBtn.attr('src', '<%= asset_path("delete_btn_over.png") %>')
-    closeBtn.appendTo(selector);
+    // var closeBtn = $('<img class="delete_btn_over hover_scale" />');
+    // closeBtn.attr('src', '<%= asset_path("delete_btn_over.png") %>')
+    // closeBtn.appendTo(selector);
+    // closeBtn.click(function(){
+    //     $('.selector_item').show();
+    //     selector.animate({opacity:0}, function(){
+    //         selector.css('visibility', 'hidden');
+    //     });
+    //     canvasItem.removeClass('canvas_item_selected');
+    //     isShowCandidate = false;
+    // });
+    var closeBtn = $('.delete_btn_over');
+    closeBtn.show();
     closeBtn.click(function(){
         $('.selector_item').show();
         selector.animate({opacity:0}, function(){
             selector.css('visibility', 'hidden');
         });
+        canvasItem.removeClass('canvas_item_selected');
+        isShowCandidate = false;
+        closeBtn.hide();
     });
 
     var canditates = object.canditates;
@@ -21,24 +37,50 @@ function showCandidate(object, canvasItem)
     {
         var canditateItem = canditates[k];
 
-        var selector_div = $('<img class="canditate_item hover_scale horizontal_scroll" />');
-        selector_div.attr('src', canditateItem.images[0]);
-        var onClick = function(canditateItem)
+        var selector_div = $('<div class="canditate_item hover_scale horizontal_scroll" />');
+        selector_div.appendTo(selector);
+        var onClick = function(k)
         {
             return function(){
+                var canditateItem = canditates[k];
                 $('.canditate_item').removeClass('item_selected');
                 $(this).addClass('item_selected');
 
                 setItem(canditateItem, canvasItem);
             };
-        }(canditateItem);
-
+        }(k);
         selector_div.click(onClick);
-        selector_div.appendTo(selector);
+
+        var selector_img = $('<img class="canditate_img" />');
+        selector_img.attr('src', canditateItem.images[0]);
+        selector_img.appendTo(selector_div);
+
+        var selector_owner = $('<div class="canditate_owner_div" />');
+        selector_owner.text(canditateItem.owner);
+        selector_owner.appendTo(selector_div);
+
+        var review_div = $('<div class="candidate_review_div" />');
+        review_div.appendTo(selector_div);
+
+        var likeImg = $('<img class="review_small_item" />');
+        likeImg.attr('src', '<%= asset_path("small_like_duck.png") %>')
+        likeImg.appendTo(review_div);
+
+        var likeDiv = $('<div class="review_small_item small_text" />');
+        likeDiv.text(canditateItem.like.length - 1);
+        likeDiv.appendTo(review_div);
+
+        var suckImg = $('<img class="review_small_item" />');
+        suckImg.attr('src', '<%= asset_path("small_suck_duck.png") %>')
+        suckImg.appendTo(review_div);
+
+        var suckDiv = $('<div class="review_small_item small_text" />')
+        suckDiv.text(canditateItem.suck.length - 1);
+        suckDiv.appendTo(review_div);
 
         if (parseInt(k) == object.cover_item)
         {
-            selector_div.click();
+            selector_div.addClass('item_selected');
         }
     }
 
