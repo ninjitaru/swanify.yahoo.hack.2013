@@ -75,34 +75,34 @@ function createReviewButton(review, item)
     if (item[review].indexOf(t) == -1)
     {
         buttonDiv.addClass("no_review_div");
-        buttonDiv.click(function(){
-            var url = '/pavo_canvas/' + canvas.owner;
-            var postData = {
-                "review": review,
-                "token" : t,
-                "target_item": item.id
-            };
-
-            $.ajax({
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                url: url,
-                data: JSON.stringify(postData),
-                dataType: "json",
-            }).done(function( data ) {
-                var value = parseInt(buttonText.text());
-                if(buttonDiv.toggleClass('no_review_div').hasClass('no_review_div'))
-                {
-                    value--;
-                }
-                else
-                {
-                    value++;
-                }
-                buttonText.text(value);
-            });
-        });
     }
+    buttonDiv.click(function(){
+        var url = '/pavo_canvas/' + canvas.owner;
+        var postData = {
+            "review": review,
+            "token" : t,
+            "target_item": item.id
+        };
+
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            url: url,
+            data: JSON.stringify(postData),
+            dataType: "json",
+        }).done(function( data ) {
+            var value = parseInt(buttonText.text());
+            if(buttonDiv.toggleClass('no_review_div').hasClass('no_review_div'))
+            {
+                value--;
+            }
+            else
+            {
+                value++;
+            }
+            buttonText.text(value);
+        });
+    });
 
     return buttonDiv;
 }

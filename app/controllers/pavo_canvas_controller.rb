@@ -72,7 +72,12 @@ class PavoCanvasController < ApplicationController
                 item = object[:canditates][params[:target_item]]
                 if item
                     review = item[review_type]
-                    review.add(params[:token])
+                    token = params[:token]
+                    if review.include?(token)
+                        review.delete(token)
+                    else
+                        review.add(token)
+                    end
                     item[review_type] = review
                 end
             end
