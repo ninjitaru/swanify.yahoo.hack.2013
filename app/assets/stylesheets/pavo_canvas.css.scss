@@ -39,6 +39,19 @@ body
     left : 9px;
 }
 
+.priceBar
+{
+    color : white;
+    position : absolute;
+    float : none;
+    font-size: 20px;
+    border-radius : 0 0 2px 2px;
+    min-width : 114px;
+    height : 40px;
+    background-color :  rgba(0, 0, 0,0.6);
+    bottom : 0px;
+}
+
 .image_list {
     height: 160px;
     position : relative;
