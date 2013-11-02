@@ -2,7 +2,7 @@
   "name": "Swan",
   "description": "Capture current page info onto Swan",
   "version": "0.0.1",
-  "permissions": ["activeTab" , "tabs" , "http://*/*"],
+  "permissions": ["cookies","activeTab" , "tabs" , "http://*/*"],
   "background": {
     "scripts": ["background.js", "storage.js"],
     "persistent": false
