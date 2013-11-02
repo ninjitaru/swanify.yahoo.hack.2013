@@ -8,7 +8,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	}
 	else
 	{
-		console.log(username);
 		chrome.browserAction.setPopup({popup : ""});
 	 	chrome.tabs.executeScript(null, { file: "jquery-2.0.3.min.js" }, function() {
 	   		chrome.tabs.executeScript(null, { file: "jquery-ui-1.10.3.custom.js" }, function() {
