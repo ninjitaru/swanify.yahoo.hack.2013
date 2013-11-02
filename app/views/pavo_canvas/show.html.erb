@@ -8,6 +8,8 @@
   <%= javascript_tag "var canvas = #{@canvas.to_json};" %>
 
   <script type="text/javascript">
+  var token = "picker";
+
   function getItem(itemId)
   {
     for(var i in item_list.items)
@@ -39,7 +41,40 @@
 function setItem(item, canvasItem)
 {
   var imgUrl = "url(" + item.images[0] + ")";
-  var imageItem = $('<div id="image_item"></div>').css({
+  var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
+    'background-image': imgUrl,
+    'background-position':'center',
+    'background-repeat':'no-repeat',
+    'display': 'block',
+    'height': canvasItem.height(),
+    'width': canvasItem.width(),
+    'background-size': 'auto 300px',
+    'top' : canvasItem.scrollLeft(),
+    'left' : canvasItem.scrollTop(),
+    'z-index':9999,
+  });
+  canvasItem.find('div').replaceWith(imageItem);
+
+  // Set the new candidate item
+  var canvasId = canvasItem.attr('id');
+  var itemId = canvasItem.find('div').attr('id');
+  var coverItemId = parseInt(itemId);
+  canvas.objects[canvasId].cover_item = coverItemId;
+  canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
+  var url = '/pavo_canvas/' + canvas.owner;
+  $.ajax({
+    type: "PUT",
+    contentType: "application/json; charset=utf-8",
+    url: url,
+    data: JSON.stringify({ "pavo_canva" : canvas }),
+    dataType: "json"
+  });
+}
+
+function addItem(item, canvasItem)
+{
+  var imgUrl = "url(" + item.images[0] + ")";
+  var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
     'background-image': imgUrl,
     'background-position':'center',
     'background-repeat':'no-repeat',
@@ -53,6 +88,7 @@ function setItem(item, canvasItem)
   });
   canvasItem.append(imageItem);
 }
+
 </script>
 
 <p>
@@ -87,7 +123,7 @@ function setItem(item, canvasItem)
 
     for(var index in items)
     {
-     var canvasItem = $('<div class="canvas_item"></div>');
+     var canvasItem = $('<div id="' + index + '" class="canvas_item"></div>');
      var item = items[index];
      canvasItem.css("left", item[0] + "px");
      canvasItem.css("top", item[1] + "px");
@@ -101,6 +137,8 @@ function setItem(item, canvasItem)
  var currentTemplate = getTemplate(canvas.template_id)
  setTemplate(currentTemplate);
 
+console.log(JSON.stringify(canvas));
+
  for(var i in canvas.objects)
  {
   var obj = canvas.objects[i];
@@ -110,7 +148,7 @@ function setItem(item, canvasItem)
   var canvasItem = canvasItems[i];
   if(canvasItem)
   {
-    setItem(coverItem, canvasItem)
+    addItem(coverItem, canvasItem)
   }
 }
 

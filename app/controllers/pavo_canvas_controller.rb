@@ -46,7 +46,7 @@ class PavoCanvasController < ApplicationController
     end
 
     def update
-        @can = PavoCanva.find(params[:id])
+        @can = PavoCanva.find_by_owner(params[:id])
 
         review = params[:review]
         if review
