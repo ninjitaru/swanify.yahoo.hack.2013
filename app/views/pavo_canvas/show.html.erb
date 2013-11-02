@@ -50,7 +50,7 @@
       helper: 'clone',
       revert: 'invalid',
       appendTo: 'body',
-      z-index: 999,
+      zIndex: 999,
     });
 
     $( ".canvas_item" ).droppable({
@@ -75,16 +75,18 @@
       'background-size': 'auto 300px',
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
-      'z-index':998,
+      'z-index':998
     });
-    
+
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
-    var itemId = canvasItem.find('div').attr('id');
+    var itemId = item.id;
     var coverItemId = parseInt(itemId);
-    
+
     canvas.objects[canvasId].cover_item = coverItemId;
     canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
+
+
     var url = '/pavo_canvas/' + canvas.owner;
     console.log(JSON.stringify(canvas));
     $.ajax({
@@ -109,7 +111,7 @@
       'background-size': 'auto 300px',
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
-      'z-index':9999,
+      'z-index' : 9999
     });
     canvasItem.append(imageItem);
   }
@@ -118,10 +120,7 @@
   <div class="swan_topbar">
     <div class="image_list">
       <% @item_list.items.reverse_each do |item| %>
-      <!--div class="draggable" id=<%= item.id %>-->
         <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
-        <!--%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %-->
-      <!--/div -->
       <% end %>
     </div>
     <div class="swan_textbar"><a target="_blank"></a></div>
