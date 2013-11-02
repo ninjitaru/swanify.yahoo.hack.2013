@@ -1,6 +1,20 @@
+function getTemplate(templateId)
+{
+    for(var i in templates)
+    {
+        var template = templates[i]
+        if(template.id == templateId)
+        {
+            console.log("Find template: " + templateId)
+            return template
+        }
+    }
+}
+
 var templates =
 [
     {
+        "id"   : "1",
         "image": "<%= asset_path('template/template001.png') %>",
         "items":
         [
@@ -10,6 +24,7 @@ var templates =
         ]
     },
     {
+        "id"   : "2",
         "image": "<%= asset_path('template/template002.png') %>",
         "items":
         [
@@ -19,6 +34,7 @@ var templates =
         ]
     },
     {
+        "id"   : "3",
         "image": "<%= asset_path('template/template003.png') %>",
         "items":
         [
@@ -28,6 +44,7 @@ var templates =
         ]
     },
     {
+        "id"   : "4",
         "image": "<%= asset_path('template/template004.png') %>",
         "items":
         [
@@ -37,6 +54,7 @@ var templates =
         ]
     },
     {
+        "id"   : "5",
         "image": "<%= asset_path('template/template005.png') %>",
         "items":
         [
