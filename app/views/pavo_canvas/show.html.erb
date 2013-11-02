@@ -43,6 +43,12 @@
         });
         sharebtn.click(function() {
 
+          var sharebox = $("div.sharebox");
+          if(sharebox.length > 0)
+          {
+            sharebox.remove();
+            return;
+          }
           // var shareurl = document.location.hostname + document.location.pathname + "?t=" + "ken";
           var sharebox = $('<div class="sharebox"><ol id="selectable"><li class="ui-state-default">ken</li><li class="ui-state-default">picker</li><li class="ui-state-default">abby</li><li class="ui-state-default">ninji</li></ol></div>');
           $("body").append(sharebox);
