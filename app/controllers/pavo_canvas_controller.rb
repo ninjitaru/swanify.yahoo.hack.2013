@@ -13,6 +13,20 @@ class PavoCanvasController < ApplicationController
         if @canvas.nil?
             @canvas = PavoCanva.new
             @canvas.owner = params[:id]
+            @canvas.template_id = "1"
+            @canvas.objects = Array.new
+
+            @item_list.items.each do |item|
+                obj = {
+                    :cover_item => item.id,
+                    :canditates =>
+                    {
+                        item.id => item
+                    }
+                }
+                @canvas.objects.push(obj)
+            end
+
             @canvas.save
         end
 
@@ -23,6 +37,12 @@ class PavoCanvasController < ApplicationController
                 :item_list => @item_list
                 }}
         end
+    end
+
+    def destroy
+        @can = PavoCanva.find_by_owner(params[:id])
+        @can.destroy
+        render json: { :message => "Remove #{params[:id]} success!" }
     end
 
     def update

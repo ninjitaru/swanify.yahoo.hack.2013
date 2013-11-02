@@ -26,9 +26,10 @@ ActiveRecord::Schema.define(version: 20131030125408) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "url"
-    t.integer  "price"
+    t.string   "price"
     t.text     "images"
     t.integer  "item_list_id"
+    t.string   "title"
   end
 
   create_table "pavo_canvas", force: true do |t|

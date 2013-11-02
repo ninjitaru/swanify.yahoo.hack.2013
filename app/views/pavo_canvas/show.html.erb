@@ -4,81 +4,131 @@
 </head>
 
 <body>
+  <%= javascript_tag "var item_list = #{@item_list.to_json};" %>
+  <%= javascript_tag "var canvas = #{@canvas.to_json};" %>
+
   <script type="text/javascript">
-  $(function ( event, ui ) {
-    $( ".draggable" ).draggable({
+  function getItem(itemId)
+  {
+    for(var i in item_list.items)
+    {
+      var item = item_list.items[i];
+      if(item.id == itemId)
+      {
+        return item;
+      }
+    }
+  }
+
+  $(function ( event, ui )
+  {
+    $( ".draggable" ).draggable(
+    {
       helper: 'clone',
       revert: 'invalid',
     });
+
     $( ".canvas_item" ).droppable({
-        drop: function( event, ui ) {
-          $(this).append(ui.draggable.children("a").trigger("create"));
-          var _canvasItem = $(this);
-          $(this).find("img.item_image").css("left", _canvasItem.scrollLeft());
-          $(this).find("img.item_image").css("right", _canvasItem.scrollTop());
-          $(this).find("img.item_image").css("width", _canvasItem.width());
-          $(this).find("img.item_image").css("height", _canvasItem.height());
-        }
-    }); 
-  });
-  </script>
-  <%= javascript_tag "var item_list = #{@item_list.to_json};" %>
-
-  <p>
-    <div class="image_list">
-      <% @item_list.items.each do |item| %>
-      <div class="draggable" id=<%= item.id %>>
-        <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
-        <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
-      </div>
-      <% end %>
-    </div>
-    <div id="content">
-      <div id="canvas"></div>
-      <div id="template_selector"></div>
-    </div>
-    <div style="margin-left: 90%">
-      <strong>Owner: <%= @canvas.owner %></strong>
-    </div>
-
-    <script type="text/javascript">
-    function setTemplate(template)
-    {
-      var canvas = $("#canvas");
-      canvas.empty();
-      var items = template.items;
-
-      for(var index in items)
-      {
-       var canvasItem = $('<div class="canvas_item"></div>');
-       var item = items[index];
-       canvasItem.css("left", item[0] + "px");
-       canvasItem.css("top", item[1] + "px");
-       canvasItem.css("width", item[2] + "px");
-       canvasItem.css("height", item[3] + "px");
-       canvas.append(canvasItem);
-     }
-   }
-
-   var currentTemplate = templates[0];
-   setTemplate(currentTemplate);
-
-   var templateSelector = $("#template_selector");
-   for(var index in templates)
-   {
-    var template = templates[index];
-    var templateItem = $('<img class="template_item">');
-    templateItem.attr('src', template.image);
-    templateItem.click(function() {
-      var t = template
-      return function(){
-        setTemplate(t)
+      drop: function( event, ui ) {
+        var matchedItem = getItem(ui.draggable.attr('id'));
+        setItem(matchedItem, $(this));
       }
-    }());
-    templateItem.appendTo(templateSelector);
+    });
+  });
+
+function setItem(item, canvasItem)
+{
+  var imgUrl = "url(" + item.images[0] + ")";
+  var imageItem = $('<div id="image_item"></div>').css({
+    'background-image': imgUrl,
+    'background-position':'center',
+    'background-repeat':'no-repeat',
+    'display': 'block',
+    'height': canvasItem.height(),
+    'width': canvasItem.width(),
+    'background-size': 'auto 300px',
+    'top' : canvasItem.scrollLeft(),
+    'left' : canvasItem.scrollTop(),
+    'z-index':9999,
+  });
+  canvasItem.append(imageItem);
+}
+</script>
+
+<p>
+  <div class="image_list">
+    <% @item_list.items.reverse_each do |item| %>
+    <div class="draggable" id=<%= item.id %>>
+      <a href="#"><%= image_tag item.images[0], :class => "item_image" %></a>
+      <%= image_tag "change_picture_btn.png" , :class => "change_picture_button" %>
+      <div class="item_title"><%= item.title %></div>
+    </div >
+    <% end %>
+  </div>
+
+  <div id="content">
+    <div id="canvas"></div>
+    <div id="template_selector"></div>
+  </div>
+  <div style="margin-left: 90%">
+    <strong>Owner: <%= @canvas.owner %></strong>
+  </div>
+
+  <script type="text/javascript">
+
+  var canvasItems;
+
+  function setTemplate(template)
+  {
+    canvasItems = []
+    var canvas = $("#canvas");
+    canvas.empty();
+    var items = template.items;
+
+    for(var index in items)
+    {
+     var canvasItem = $('<div class="canvas_item"></div>');
+     var item = items[index];
+     canvasItem.css("left", item[0] + "px");
+     canvasItem.css("top", item[1] + "px");
+     canvasItem.css("width", item[2] + "px");
+     canvasItem.css("height", item[3] + "px");
+     canvas.append(canvasItem);
+     canvasItems.push(canvasItem);
+   }
+ }
+
+ var currentTemplate = getTemplate(canvas.template_id)
+ setTemplate(currentTemplate);
+
+ for(var i in canvas.objects)
+ {
+  var obj = canvas.objects[i];
+  var coverItemId = obj.cover_item;
+  var coverItem = obj.canditates[coverItemId];
+
+  var canvasItem = canvasItems[i];
+  if(canvasItem)
+  {
+    setItem(coverItem, canvasItem)
   }
+}
 
+var templateSelector = $("#template_selector");
+for(var index in templates)
+{
+  var template = templates[index];
+  var templateItem = $('<img class="template_item">');
+  templateItem.attr('src', template.image);
+  templateItem.click(function() {
+    var t = template
+    return function(){
+      setTemplate(t)
+    }
+  }());
+  templateItem.appendTo(templateSelector);
+}
 
-  </script>
+</script>
 </p>
 </body>

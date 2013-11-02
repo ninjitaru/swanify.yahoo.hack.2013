@@ -30,12 +30,27 @@
     border-radius: 4px;
 }
 
+.draggable .item_title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: auto;
+    /*visibility: hidden;
+    opacity: 0;*/
+}
+
+.draggable:hover .item_title {
+    visibility: visible;;
+    opacity: 1;
+}
+
 .change_picture_button {
     width: 16px;
     height: 15px;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
 }
 
 #big_content_item img {
