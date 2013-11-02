@@ -50,7 +50,7 @@ function showTopBar() {
             editbtn.attr('src',chrome.extension.getURL('edit_btn.png'));
         });
         editbtn.click(function() {
-            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
+            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html?t=" + username });
         });
     }
     else
