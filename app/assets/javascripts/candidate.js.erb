@@ -16,6 +16,7 @@ function showCandidate(object, canvasItem)
         selector.animate({opacity:0}, function(){
             selector.css('visibility', 'hidden');
         });
+        canvasItem.removeClass('canvas_item_selected');
         isShowCandidate = false;
     });
 
