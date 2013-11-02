@@ -39,17 +39,32 @@ body
     left : 9px;
 }
 
+.titleBar
+{
+    color : white;
+    position : absolute;
+    float : none;
+    font-size: 14px;
+    border-radius : 0 0 2px 2px;
+    height : 20px;
+    background-color :  rgba(0, 0, 0,0.6);
+    top : 0px;
+    padding-left: 4px;
+    overflow : hidden;
+}
+
 .priceBar
 {
     color : white;
     position : absolute;
     float : none;
-    font-size: 20px;
+    font-size: 18px;
     border-radius : 0 0 2px 2px;
-    min-width : 114px;
     height : 40px;
     background-color :  rgba(0, 0, 0,0.6);
     bottom : 0px;
+    padding-left: 4px;
+    overflow : hidden;
 }
 
 .image_list {
@@ -58,6 +73,7 @@ body
     float : left;
     left : 0px;
     top: 5px;
+    padding-left: 4px;
     background-color: #fffffb;
     width: 100%;
 }
@@ -152,15 +168,52 @@ body{
   //  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eefbfb', endColorstr='#c5ebe8',GradientType=0 ); /* IE6-9 */
 }
 
+.leftcontent {
+  width: 200px;
+  margin-left: -100%;
+  right: 200px;
+}
+
+#selectable .ui-selecting { background: #FECA40; }
+#selectable .ui-selected { background: #F39814; color: white; }
+#selectable { list-style-type: none; margin: 10px; padding: 0; width: 160px;  }
+#selectable li { border-radius:4px; background: #a1dcd8; margin: 3px; padding: 1px; padding-top: 10px; float: left; width: 40px; height: 30px; font-size: 1em; text-align: center; }
+
+.sharebox
+{
+    width: 200px;
+    height : 200px;
+    position: absolute;
+    float : none;
+    left : 80%;
+    top : 420px;
+    background-color : white;
+    border-radius : 12px;
+    box-shadow: 2px 2px 10px 2px #888888;
+}
+
+.sharebox div
+{
+    margin : 10px 10px;
+    word-wrap: break-word;
+
+}
+
 .rightcontent
 {
-    position : absolute;
-    display: table-cell;
-    vertical-align: middle;
-    top : 50%;
-    left : 80%;
-    width: 300px;
-    height : 100%;
+    width: 226px;
+height: 100%;
+top: 0px;
+left: 640px;
+position: absolute;
+}
+
+.rightcontent img
+{
+    margin-top : 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .content img {
@@ -185,7 +238,8 @@ body{
     margin-left: auto;
     margin-right: auto;
     margin-top: 10pt;
-    background-color: #eefbfb
+    background-color: #eefbfb;
+    position: relative;
 }
 
 #canvas
@@ -243,6 +297,17 @@ div.like_div
 div.suck_div
 {
     background-image: image-url("suck_btn.png");
+}
+
+div.detailToggleBtn
+{
+    width: 30px; 
+    height: 30px;
+    position : absolute;
+    top : 0px;
+    right : -30px;
+    background-image: image-url("info_btn.png");
+    float: left;
 }
 
 .text_div
