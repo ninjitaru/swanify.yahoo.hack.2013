@@ -64,8 +64,8 @@
   function setItem(item, canvasItem)
   {
     var imgUrl = "url(" + item.images[0] + ")";
-    canvasItem.find('div').attr('id', item.id);
-    canvasItem.find('div').css({
+    canvasItem.find('.image_item').attr('id', item.id);
+    canvasItem.find('.image_item').css({
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
