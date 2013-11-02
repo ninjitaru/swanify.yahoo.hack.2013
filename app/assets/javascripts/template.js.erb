@@ -152,17 +152,20 @@ function initTemplate()
     var currentTemplate = getTemplate(canvas.template_id);
     setTemplate(currentTemplate);
 
-    var templateSelector = $("#template_selector");
-    for(var index in templates)
+    if(is_my_canvas)
     {
-      var template = templates[index];
-      var templateItem = $('<img class="template_item">');
-      templateItem.attr('src', template.image);
-      templateItem.click(function() {
-        var t = template;
-        return function(){
-          setTemplate(t);
-      };}());
-      templateItem.appendTo(templateSelector);
+        var templateSelector = $("#template_selector");
+        for(var index in templates)
+        {
+          var template = templates[index];
+          var templateItem = $('<img class="template_item">');
+          templateItem.attr('src', template.image);
+          templateItem.click(function() {
+            var t = template;
+            return function(){
+              setTemplate(t);
+          };}());
+          templateItem.appendTo(templateSelector);
+      }
   }
 }

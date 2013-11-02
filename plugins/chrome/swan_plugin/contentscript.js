@@ -43,6 +43,12 @@ function showTopBar() {
             'margin-left' : '-34px',
         });
         topright.append(editbtn);
+
+        editbtn.hover(function () {
+            editbtn.attr('src',chrome.extension.getURL('edit_btn_over.png'));
+        }, function () {
+            editbtn.attr('src',chrome.extension.getURL('edit_btn.png'));
+        });
         editbtn.click(function() {
             chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
         });
