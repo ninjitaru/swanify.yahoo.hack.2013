@@ -119,9 +119,12 @@
   </script>
   <div class="swan_topbar">
     <div class="image_list">
-      <% @item_list.items.reverse_each do |item| %>
-        <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
-      <% end %>
+      
+        <% @item_list.items.reverse_each do |item| %>
+          <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
+          
+        <% end %>
+      
     </div>
     <div class="swan_textbar"><a target="_blank"></a></div>
   </div>

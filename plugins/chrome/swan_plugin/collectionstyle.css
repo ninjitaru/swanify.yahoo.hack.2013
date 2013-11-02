@@ -48,3 +48,37 @@
     width : 70%;
     height : 20px;
 }
+
+.swan_innertext
+{
+	color : white;
+    position : relative;
+    float : none;
+    top : -29px;
+    left : 1px;
+   font-size: 14px;
+   border-radius : 0 0 4px 4px;
+   width : 110px;
+   min-width : 114px;
+   height : 20px;
+   padding-top: 4px;
+   padding-left : 6px;
+   background-color :  rgba(0, 0, 0,0.6);
+}
+
+.swan_innertext_selected
+{
+	color : white;
+    position : relative;
+    float : none;
+    top : -29px;
+    left : 1px;
+   font-size: 14px;
+   border-radius : 0 0 4px 4px;
+   width : 110px;
+   min-width : 114px;
+   height : 20px;
+   padding-top: 4px;
+   padding-left : 6px;
+   background-color :  rgba(0, 0, 0,0.6);
+}

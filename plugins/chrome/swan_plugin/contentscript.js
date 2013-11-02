@@ -155,23 +155,7 @@ function showItemOnBar(item, front)
     var topbar = $("div.swan_item_list");
     // console.log(topbar);
     var string = '<span><img class="swan draggable" style="border-radius: 4px;border-style:solid;border-width:1px;border-color:#a1dcd8;" width="120px" height="120px" id="'+ item.id +'" src="'+ item.images[0] +'"/></span>';
-    var textBlock = $("<div class='swaninnertext'>$ "+item.price+"</div>");
-    textBlock.css({
-        'color': 'white',
-        'position' : 'relative',
-        'float' : 'none',
-        'top' : '-29px',
-        'left' : '1px',
-   'font-sze': '14px',
-   'border-radius': '0 0 4px 4px',
-   // 'letter-spacing': '1px',
-   'width' : '110px',
-   'min-width' :'114px',
-   'height' : '20px',
-   'padding-top': '4px',
-   'padding-left' : '6px',
-   'background-color': 'rgba(0, 0, 0,0.6)'
-    });
+    var textBlock = $("<div class='swan_innertext'>$ "+item.price+"</div>");
 
     var imgDom = $(string);
     imgDom.append(textBlock);
@@ -201,12 +185,12 @@ function showItemOnBar(item, front)
     imgDom.click(function(){
 
         $("img.swan").css("border-width", "1px");
-        $("div.swaninnertext").css("left", "1px");
-        $("div.swaninnertext").css("top", "-29px");
+        $("div.swan_innertext").css("left", "1px");
+        $("div.swan_innertext").css("top", "-29px");
         $("div.swan_textbar a").attr("href", item.url);
         $("div.swan_textbar a").text(item.title);
-        $(this).find("div.swaninnertext").css("left","3px");
-        $(this).find("div.swaninnertext").css("top","-30px");
+        $(this).find("div.swan_innertext").css("left","3px");
+        $(this).find("div.swan_innertext").css("top","-30px");
         $(this).find("img").css("border-width", "3px"); 
     });
 
