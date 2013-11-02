@@ -99,6 +99,8 @@
 
     var item = getItem(itemId);
     item['owner'] = t;
+    item['suck'] = [];
+    item['like'] = [];
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
     {
