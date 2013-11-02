@@ -123,6 +123,13 @@ function setTemplate(template)
         canvasItem.css("height", templateItem[3] + "px");
         canvasItem.appendTo(canvasDiv);
 
+        $( ".canvas_item" ).droppable({
+          drop: function( event, ui ) {
+            var matchedItem = getItem(ui.draggable.attr('id'));
+            setItem(matchedItem, $(this));
+          }
+        });
+
         var obj = canvas.objects[i];
         if(typeof(obj) == 'undefined')
         {
