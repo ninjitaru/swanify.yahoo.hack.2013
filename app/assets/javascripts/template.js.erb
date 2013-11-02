@@ -104,7 +104,7 @@ var templates =
 
   for(var i in items)
   {
-   var canvasItem = $('<div class="canvas_item"></div>');
+   var canvasItem = $('<div id="' + i + '" class="canvas_item"></div>');
    var templateItem = items[i];
    canvasItem.css("left", templateItem[0] + "px");
    canvasItem.css("top", templateItem[1] + "px");
@@ -119,7 +119,7 @@ var templates =
   }
   var coverItemId = obj.cover_item;
   var coverItem = obj.canditates[coverItemId];
-  setItem(coverItem, canvasItem)
+  addItem(coverItem, canvasItem)
 
   var buttonContainer = $('<div class="button_container"></div>');
   buttonContainer.appendTo(canvasItem);
