@@ -261,7 +261,7 @@ div.suck_div
 #selector
 {
     position: relative;;
-    height: 130px;
+    height: 160px;
 }
 
 #template_selector
@@ -309,7 +309,7 @@ div.suck_div
     position: relative;
     display: inline-block;
     width: 120px;
-    height: 120px;
+    height: 140px;
     border-width : 1px;
     border-color : #a1dcd8;
     border-radius: 4px;
@@ -325,7 +325,7 @@ div.suck_div
 .canditate_owner_div
 {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     margin-right: auto;
     margin-left: auto;
     color: white;
@@ -335,6 +335,21 @@ div.suck_div
     width: 120px;
     background-color :  rgba(0, 0, 0,0.6);
     text-align: center;
+}
+
+.candidate_review_div
+{
+    margin-top: -5px;
+    margin-left: 30px;
+    margin-right: auto;
+}
+
+.review_small_item
+{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    color: black;
 }
 
 .delete_btn_over

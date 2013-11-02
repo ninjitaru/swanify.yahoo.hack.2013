@@ -171,11 +171,12 @@ function setTemplate(template)
         var coverItem = obj.canditates[coverItemId];
         var imageItem = addItem(coverItem, canvasItem);
 
-        imageItem.click(function(obj, canvasItem){
+        imageItem.click(function(i, canvasItem){
             return function(){
+                var obj = canvas.objects[i];
                 showCandidate(obj, canvasItem);
             };
-        }(obj, canvasItem));
+        }(i, canvasItem));
         createAllReviewButton(canvasItem, coverItem);
     }
 }
