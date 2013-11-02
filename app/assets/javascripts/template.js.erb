@@ -70,7 +70,9 @@ function createReviewButton(review, item)
 {
     var buttonDiv = $('<div class="'+ review +'_div review_div hover_scale"></div>');
     var reviewCount = item[review].length - 1;
-    var buttonText = $('<div class="text_div">'+ reviewCount +'</div>');
+    var buttonText = $('<div class="text_div">'+ reviewCount +'</div>')
+    .addClass(review);
+
     buttonText.appendTo(buttonDiv);
 
     if (item[review].indexOf(t) == -1)
@@ -124,15 +126,15 @@ function createReviewButton(review, item)
                     top: "-=20",
                     // width : "+=4",
                     // height : "+=8",
-                  }, 500, function() {
+                }, 500, function() {
                     heart.remove();
-                  });
+                });
             }
             buttonText.text(value);
         });
-    });
+});
 
-    return buttonDiv;
+return buttonDiv;
 }
 
 function setTemplate(template)
@@ -174,13 +176,18 @@ function setTemplate(template)
                 showCandidate(obj, canvasItem);
             };
         }(obj, canvasItem));
-
-        var buttonContainer = $('<div class="button_container"></div>');
-        buttonContainer.appendTo(canvasItem);
-
-        buttonContainer.append(createReviewButton("like", coverItem));
-        buttonContainer.append(createReviewButton("suck", coverItem));
+        createAllReviewButton(canvasItem, coverItem);
     }
+}
+
+function createAllReviewButton(canvasItem, item)
+{
+    canvasItem.find('.button_container').remove();
+
+    var buttonContainer = $('<div class="button_container"></div>');
+    buttonContainer.appendTo(canvasItem);
+    buttonContainer.append(createReviewButton("like", item));
+    buttonContainer.append(createReviewButton("suck", item));
 }
 
 function initTemplate()
