@@ -261,6 +261,12 @@ position: absolute;
     outline:#a1dcd8 solid 6px;
 }
 
+.canvas_item_selected
+{
+    outline: #f9a7b5 solid 6px;
+    z-index: 9999;
+}
+
 .button_container
 {
     position: absolute;;
@@ -304,7 +310,7 @@ div.suck_div
 
 div.detailToggleBtn
 {
-    width: 30px; 
+    width: 30px;
     height: 30px;
     position : absolute;
     top : 0px;
