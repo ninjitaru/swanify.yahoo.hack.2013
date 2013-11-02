@@ -103,7 +103,11 @@
     {
       canvas.objects[canvasId].cover_item = coverItemId;
     }
+    submitCanvas();
+  }
 
+  function submitCanvas()
+  {
     var url = '/pavo_canvas/' + canvas.owner;
     console.log(JSON.stringify(canvas));
     $.ajax({
