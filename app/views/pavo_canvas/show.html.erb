@@ -26,10 +26,11 @@
     $("img.item_image").click(function(){
       var itemID = $(this).attr("id");
       var item = getItem(itemID);
-
+      $("div.swan_innertext").removeClass("swan_innertext_selected");
       $("div.swan_textbar a").attr("href", item.url);
       $("div.swan_textbar a").text(item.title);
       $("img.item_image").css("border-width", "1px");
+      $(this).siblings().addClass("swan_innertext_selected");
       $(this).css("border-width", "3px");
     });
   });
@@ -159,12 +160,12 @@
 
   <div class="swan_topbar">
     <div class="image_list">
-
-        <% @item_list.items.reverse_each do |item| %>
+      <% @item_list.items.reverse_each do |item| %>
+        <span class="swan_image">
           <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
-
-        <% end %>
-
+          <div class='swan_innertext'>$ <%= item.price %></div>
+        </span>
+      <% end %>
     </div>
     <div class="swan_textbar"><a target="_blank"></a></div>
   </div>
