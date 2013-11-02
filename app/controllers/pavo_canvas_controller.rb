@@ -38,6 +38,14 @@ class PavoCanvasController < ApplicationController
             @canvas.save
         end
 
+        @canvas.objects.each do |obj|
+            unless obj["like"]
+                obj["like"] = Set.new
+                obj["suck"] = Set.new
+                @canvas.save
+            end
+        end
+
         respond_to do |format|
             format.html {}
             format.json { render json: {
