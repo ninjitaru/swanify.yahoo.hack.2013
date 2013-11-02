@@ -1,4 +1,7 @@
-var username = "ninji";
+// var username = localStorage.getItem("swan_username");
+// username = "ninji";
+var username = swan_username;
+console.log("context " + username);
 var httpURL = "http://localhost:3000/";
 var canvasPath = "pavo_canvas/";
 
