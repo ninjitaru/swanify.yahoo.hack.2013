@@ -316,6 +316,27 @@ div.suck_div
     border-style : solid;
 }
 
+.canditate_img
+{
+    width: 120px;
+    height: 120px;
+}
+
+.canditate_owner_div
+{
+    position: absolute;
+    bottom: 0;
+    margin-right: auto;
+    margin-left: auto;
+    color: white;
+    font-size: 14pt;
+    border-radius : 0 0 4px 4px;
+    height : 20px;
+    width: 120px;
+    background-color :  rgba(0, 0, 0,0.6);
+    text-align: center;
+}
+
 .delete_btn_over
 {
     position: absolute;

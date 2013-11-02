@@ -21,8 +21,8 @@ function showCandidate(object, canvasItem)
     {
         var canditateItem = canditates[k];
 
-        var selector_div = $('<img class="canditate_item hover_scale horizontal_scroll" />');
-        selector_div.attr('src', canditateItem.images[0]);
+        var selector_div = $('<div class="canditate_item hover_scale horizontal_scroll" />');
+        selector_div.appendTo(selector);
         var onClick = function(canditateItem)
         {
             return function(){
@@ -32,9 +32,15 @@ function showCandidate(object, canvasItem)
                 setItem(canditateItem, canvasItem);
             };
         }(canditateItem);
-
         selector_div.click(onClick);
-        selector_div.appendTo(selector);
+
+        var selector_img = $('<img class="canditate_img" />');
+        selector_img.attr('src', canditateItem.images[0]);
+        selector_img.appendTo(selector_div);
+
+        var selector_owner = $('<div class="canditate_owner_div" />');
+        selector_owner.text(canditateItem.owner);
+        selector_owner.appendTo(selector_div);
 
         if (parseInt(k) == object.cover_item)
         {
