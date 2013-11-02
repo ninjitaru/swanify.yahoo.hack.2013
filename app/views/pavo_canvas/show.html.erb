@@ -65,6 +65,19 @@
     var imgUrl = "url(" + item.images[0] + ")";
     var imageItem = canvasItem.find('.image_item');
     imageItem.attr('id', item.id);
+    // find item correct scaled size
+    var width = canvasItem.width();
+    var height = canvasItem.height();
+    var backgroundsizestring;
+    if(width >= height)
+    {
+      backgroundsizestring = width +'px auto';
+    }
+    else
+    {
+      backgroundsizestring = 'auto ' + height + 'px';
+    }
+
     imageItem.css({
       'background-image': imgUrl,
       'background-position':'center',
@@ -72,7 +85,7 @@
       'display': 'block',
       'height': canvasItem.height(),
       'width': canvasItem.width(),
-      'background-size': 'auto 300px',
+      'background-size': backgroundsizestring,
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
       'z-index':998
@@ -120,13 +133,25 @@
 
   function addItem(item, canvasItem)
   {
+    var width = canvasItem.width();
+    var height = canvasItem.height();
+    var backgroundsizestring;
+    if(width >= height)
+    {
+      backgroundsizestring = width +'px auto';
+    }
+    else
+    {
+      backgroundsizestring = 'auto ' + height + 'px';
+    }
+
     var imgUrl = "url(" + item.images[0] + ")";
     var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
       'display': 'block',
-      'background-size': 'auto 300px',
+      'background-size': backgroundsizestring,
       'height': canvasItem.height(),
       'width': canvasItem.width(),
       'top' : canvasItem.scrollLeft(),
