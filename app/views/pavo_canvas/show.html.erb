@@ -120,12 +120,12 @@
       'z-index':998,
     });
     var titleBar = imageItem.find('.titleBar');
-    titleBar.css('width', imageItem.width() - 4);
+    titleBar.css('width', imageItem.width() - 6);
     titleBar.css('left', imageItem.scrollLeft());
     titleBar.text(item.title);
 
     var priceBar = imageItem.find('.priceBar');
-    priceBar.css('width', imageItem.width() - 4);
+    priceBar.css('width', imageItem.width() - 6);
     priceBar.css('left', imageItem.scrollLeft());
     priceBar.text("$ " + item.price);
 
@@ -195,12 +195,12 @@
     imageItem.appendTo(canvasItem);
 
     var titleBar = $("<div class='titleBar'>$ " + item.title + "</div>");
-    titleBar.css('width', imageItem.width() - 4);
+    titleBar.css('width', imageItem.width() - 6);
     titleBar.css('left', imageItem.scrollLeft());
     titleBar.appendTo(imageItem);
 
     var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
-    priceBar.css('width', imageItem.width() - 4);
+    priceBar.css('width', imageItem.width() - 6);
     priceBar.css('left', imageItem.scrollLeft());
     priceBar.appendTo(imageItem);
 
