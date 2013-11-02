@@ -108,7 +108,40 @@ body{
 .canvas_item
 {
     position: absolute;
-    outline:black solid thin;
+    outline:#a1dcd8 solid 6px;
+}
+
+.button_container
+{
+    position: absolute;;
+    bottom: 0;
+    right: 0;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+div.like_div
+{
+    width: 36px;
+    height: 36px;
+    display: table-cell;
+    vertical-align: middle;
+    background-image: image-url("like_btn.png");
+}
+
+div.suck_div
+{
+    width: 36px;
+    height: 36px;
+    display: table-cell;
+    vertical-align: middle;
+    background-image: image-url("suck_btn.png");
+}
+
+.text_div
+{
+    position: absolute;
+    margin: auto;
 }
 
 #template_selector

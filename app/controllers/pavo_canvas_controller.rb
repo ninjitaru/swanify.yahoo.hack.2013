@@ -1,3 +1,5 @@
+require 'set'
+
 class PavoCanvasController < ApplicationController
     def index
         @canvases = PavoCanva.all
@@ -8,7 +10,9 @@ class PavoCanvasController < ApplicationController
 
     def show
         @canvas = PavoCanva.find_by_owner(params[:id])
-        @item_list = ItemList.find_by_owner(params[:id])
+        @item_list = ItemList.find_by_owner(params[:t])
+        @t = params[:t]
+        @is_my_canvas = params[:id] == params[:t]
 
         if @canvas.nil?
             @canvas = PavoCanva.new
@@ -17,11 +21,15 @@ class PavoCanvasController < ApplicationController
             @canvas.objects = Array.new
 
             @item_list.items.each do |item|
+                item_json = ActiveSupport::JSON.decode(item.to_json)
+                item_json["like"] = Set.new
+                item_json["suck"] = Set.new
+
                 obj = {
                     :cover_item => item.id,
                     :canditates =>
                     {
-                        item.id => item
+                        item.id => item_json
                     }
                 }
                 @canvas.objects.push(obj)
@@ -46,23 +54,16 @@ class PavoCanvasController < ApplicationController
     end
 
     def update
-        @can = PavoCanva.find(params[:id])
+        @can = PavoCanva.find_by_owner(params[:id])
 
-        review = params[:review]
-        if review
-            logger.debug "#{@can.inspect}"
+        review_type = params[:review]
+        if review_type
             @can.objects.each do |object|
                 item = object[:canditates][params[:target_item]]
                 if item
-                    value = item[review]
-                    logger.debug "old value: #{value}"
-                    if value.nil?
-                        value = 1
-                    else
-                        value = value + 1
-                    end
-                    logger.debug "new value: #{value}"
-                    item[review] = value
+                    review = item[review_type]
+                    review.add(params[:token])
+                    item[review_type] = review
                 end
             end
             if @can.save
