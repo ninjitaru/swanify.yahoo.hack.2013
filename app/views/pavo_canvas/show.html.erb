@@ -34,6 +34,28 @@
       $(this).siblings().addClass("swan_innertext_selected");
       $(this).css("border-width", "3px");
     });
+
+    var sharebtn = $("img.swan_share_btn");
+    sharebtn.hover(function () {
+            sharebtn.attr('src', "<%= asset_path('share_btn_over.png') %>");
+        }, function () {
+            sharebtn.attr('src', "<%= asset_path('share_btn.png') %>");
+        });
+        sharebtn.click(function() {
+
+          // var shareurl = document.location.hostname + document.location.pathname + "?t=" + "ken";
+          var sharebox = $('<div class="sharebox"><ol id="selectable"><li class="ui-state-default">ken</li><li class="ui-state-default">picker</li><li class="ui-state-default">abby</li><li class="ui-state-default">ninji</li></ol></div>');
+          $("body").append(sharebox);
+
+          $("#selectable li").click(function () {
+            var name = $(this).text();
+            console.log(name);
+            $("div.sharebox div").remove();
+            var shareurl = document.location.hostname + document.location.pathname + "?t=" + name;
+            var sharediv = $("<div>"+shareurl+"</div>");
+            sharebox.append(sharediv);
+          });
+        });
   });
 
   function draggable_clicked()
@@ -179,17 +201,23 @@
     <div class="swan_textbar"><a target="_blank"></a></div>
   </div>
 
+
   <div id="content">
+    <div class="leftcontent">
+    <!--img style="text-align:center;" src="<%= asset_path('text_info.png') %>"/-->
+  </div>
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>
       <div id="canditate_selector" class="overlay horizontal_scroll">
       </div>
     </div>
+    <div class="rightcontent">
+    <img src="<%= asset_path('text_info.png') %>"/>
+    <img class="swan_share_btn" src="<%= asset_path('share_btn.png') %>"/>
   </div>
-  <div class="rightcontent">
-    <img style="text-align:center;" src="<%= asset_path('text_info.png') %>"/>
   </div>
+  
   <div style="margin-left: 90%">
     <strong>Owner: <%= @canvas.owner %></strong>
   </div>
