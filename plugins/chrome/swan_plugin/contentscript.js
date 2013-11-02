@@ -146,7 +146,7 @@ function printItemListSummary(itemList)
 
 var finalY;
 
-function showItemOnBar(item)
+function showItemOnBar(item, front)
 {
     var topbar = $("div#topleftbar");
     // console.log(topbar);
@@ -178,7 +178,10 @@ function showItemOnBar(item)
                 }
             }
         });
-    topbar.append(imgDom);
+    if(front)
+        topbar.prepend(imgDom);
+    else
+        topbar.append(imgDom);
 }
 
 function openCanvasPage()
@@ -256,7 +259,7 @@ function getItemListID(userid) {
         topbar.empty();
         for(var i = 0; i < itemList.items.length; i++)
         {
-            showItemOnBar(itemList.items[i]);
+            showItemOnBar(itemList.items[i],false);
         }
         // itemList.id = msg.id;
         // itemList.items = [];
@@ -337,7 +340,7 @@ function sendData(itemList)
             itemList.items.push(item);
             // console.log("saving item " + item.id);
             // localStorage.setItem("item_list", JSON.stringify(itemList));
-            showItemOnBar(item);
+            showItemOnBar(item,true);
         },
         error: function(xhr, textStatus, error){
           // showItemOnBar(item);
