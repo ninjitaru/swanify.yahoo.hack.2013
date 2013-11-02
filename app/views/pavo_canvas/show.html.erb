@@ -10,8 +10,6 @@
   <%= javascript_tag "var is_my_canvas = #{@is_my_canvas};" %>
 
   <script type="text/javascript">
-  var token = "picker";
-
   function getItem(itemId)
   {
     for(var i in item_list.items)
@@ -65,8 +63,9 @@
   function setItem(item, canvasItem)
   {
     var imgUrl = "url(" + item.images[0] + ")";
-    canvasItem.find('.image_item').attr('id', item.id);
-    canvasItem.find('.image_item').css({
+    var imageItem = canvasItem.find('.image_item');
+    imageItem.attr('id', item.id);
+    imageItem.css({
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
@@ -78,15 +77,33 @@
       'left' : canvasItem.scrollTop(),
       'z-index':998
     });
+    var priceBar = imageItem.children('.priceBar');
+    priceBar.css({
+        'color': 'white',
+        'position' : 'absolute',
+        'float' : 'none',
+        'border-radius': '0 0 2px 2px',
+        'background-color': 'rgba(0, 0, 0, 0.6)',
+        'width': imageItem.width(),
+        'height' : '40px',
+        'left' : imageItem.scrollLeft(),
+        'bottom' : '0px',
+        'display': 'inline-block',
+        'font-size' : '20px',
+    });
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
     var itemId = item.id;
     var coverItemId = parseInt(itemId);
 
-    canvas.objects[canvasId].cover_item = coverItemId;
-    canvas.objects[canvasId].canditates[itemId] = getItem(itemId);
-
+    var item = getItem(itemId);
+    item['owner'] = t;
+    canvas.objects[canvasId].canditates[itemId] = item;
+    if (is_my_canvas)
+    {
+      canvas.objects[canvasId].cover_item = coverItemId;
+    }
 
     var url = '/pavo_canvas/' + canvas.owner;
     console.log(JSON.stringify(canvas));
@@ -107,17 +124,36 @@
       'background-position':'center',
       'background-repeat':'no-repeat',
       'display': 'block',
+      'background-size': 'auto 300px',
       'height': canvasItem.height(),
       'width': canvasItem.width(),
-      'background-size': 'auto 300px',
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
       'z-index' : 9999
     });
-    canvasItem.append(imageItem);
-  }
 
+    imageItem.appendTo(canvasItem);
+
+    var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
+    priceBar.css({
+        'color': 'white',
+        'position' : 'absolute',
+        'float' : 'none',
+        'border-radius': '0 0 2px 2px',
+        'background-color': 'rgba(0, 0, 0, 0.6)',
+        'width': imageItem.width(),
+        'height' : '40px',
+        'left' : imageItem.scrollLeft(),
+        'bottom' : '0px',
+        'display': 'inline-block',
+        'font-size' : '20px',
+    });
+    priceBar.appendTo(imageItem);
+
+    return imageItem;
+  }
   </script>
+
   <div class="swan_topbar">
     <div class="image_list">
       <% @item_list.items.reverse_each do |item| %>
@@ -132,15 +168,26 @@
 
   <div id="content">
     <div id="canvas"></div>
-    <div id="template_selector"></div>
+    <div id="selector">
+      <div id="template_selector"></div>
+      <div id="canditate_selector" class="overlay">
+      </div>
+    </div>
   </div>
   <div style="margin-left: 90%">
     <strong>Owner: <%= @canvas.owner %></strong>
   </div>
 
   <script type="text/javascript">
+    // $("img.item_image").click(function(){
+    //   var itemID = $(this).attr("id");
+    //   var item = getItem(itemID);
 
+    //   $("div.swan_textbar a").attr("href", item.url);
+    //   $("div.swan_textbar a").text(item.title);
+    //   $("img.item_image").css("border-width", "1px");
+    //   $(this).css("border-width", "3px");
+    // });
   initTemplate();
-
   </script>
 </body>

@@ -68,7 +68,7 @@ var templates =
 
 function createReviewButton(review, item)
 {
-    var buttonDiv = $('<div class="'+ review +'_div review_div"></div>');
+    var buttonDiv = $('<div class="'+ review +'_div review_div hover_scale"></div>');
     var buttonText = $('<div class="text_div">'+ item[review].length +'</div>');
     buttonText.appendTo(buttonDiv);
 
@@ -112,6 +112,7 @@ function setTemplate(template)
     var canvasDiv = $("#canvas");
     canvasDiv.empty();
     var items = template.items;
+    canvas.template_id = template.id;
 
     for(var i in items)
     {
@@ -123,12 +124,12 @@ function setTemplate(template)
         canvasItem.css("height", templateItem[3] + "px");
         canvasItem.appendTo(canvasDiv);
 
-        $( ".canvas_item" ).droppable({
+        canvasItem.droppable({
           drop: function( event, ui ) {
             var matchedItem = getItem(ui.draggable.attr('id'));
             setItem(matchedItem, $(this));
-          }
-        });
+        }
+    });
 
         var obj = canvas.objects[i];
         if(typeof(obj) == 'undefined')
@@ -137,7 +138,13 @@ function setTemplate(template)
         }
         var coverItemId = obj.cover_item;
         var coverItem = obj.canditates[coverItemId];
-        addItem(coverItem, canvasItem);
+        var imageItem = addItem(coverItem, canvasItem);
+
+        imageItem.click(function(obj){
+            return function(){
+                showCandidate(obj);
+            };
+        }(obj));
 
         var buttonContainer = $('<div class="button_container"></div>');
         buttonContainer.appendTo(canvasItem);
@@ -157,15 +164,25 @@ function initTemplate()
         var templateSelector = $("#template_selector");
         for(var index in templates)
         {
-          var template = templates[index];
-          var templateItem = $('<img class="template_item">');
-          templateItem.attr('src', template.image);
-          templateItem.click(function() {
-            var t = template;
-            return function(){
-              setTemplate(t);
-          };}());
-          templateItem.appendTo(templateSelector);
-      }
-  }
+            var template = templates[index];
+            var templateItem = $('<img class="selector_item">');
+            templateItem.attr('src', template.image);
+
+            var onClick = function() {
+                var t = template;
+                return function(){
+                    $('.selector_item').removeClass('template_selected');
+                    $(this).addClass('template_selected');
+                    setTemplate(t);
+                };
+            }();
+            templateItem.click(onClick);
+            templateItem.appendTo(templateSelector);
+
+            if (template.id == canvas.template_id)
+            {
+                templateItem.addClass('template_selected');
+            }
+        }
+    }
 }
