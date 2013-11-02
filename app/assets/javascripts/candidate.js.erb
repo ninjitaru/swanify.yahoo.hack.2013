@@ -54,7 +54,7 @@ function showCandidate(object, canvasItem)
         likeImg.attr('src', '<%= asset_path("small_like_duck.png") %>')
         likeImg.appendTo(review_div);
 
-        var likeDiv = $('<div class="review_small_item" />');
+        var likeDiv = $('<div class="review_small_item small_text" />');
         likeDiv.text(canditateItem.like.length - 1);
         likeDiv.appendTo(review_div);
 
@@ -62,7 +62,7 @@ function showCandidate(object, canvasItem)
         suckImg.attr('src', '<%= asset_path("small_suck_duck.png") %>')
         suckImg.appendTo(review_div);
 
-        var suckDiv = $('<div class="review_small_item" />')
+        var suckDiv = $('<div class="review_small_item small_text" />')
         suckDiv.text(canditateItem.suck.length - 1);
         suckDiv.appendTo(review_div);
 
