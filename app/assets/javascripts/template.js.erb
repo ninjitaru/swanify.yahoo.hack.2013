@@ -69,7 +69,8 @@ var templates =
 function createReviewButton(review, item)
 {
     var buttonDiv = $('<div class="'+ review +'_div review_div hover_scale"></div>');
-    var buttonText = $('<div class="text_div">'+ item[review].length +'</div>');
+    var reviewCount = item[review].length - 1;
+    var buttonText = $('<div class="text_div">'+ reviewCount +'</div>');
     buttonText.appendTo(buttonDiv);
 
     if (item[review].indexOf(t) == -1)
@@ -91,6 +92,7 @@ function createReviewButton(review, item)
             data: JSON.stringify(postData),
             dataType: "json",
         }).done(function( data ) {
+            canvas = data
             var value = parseInt(buttonText.text());
             if(buttonDiv.toggleClass('no_review_div').hasClass('no_review_div'))
             {
@@ -141,11 +143,11 @@ function setTemplate(template)
         var coverItem = obj.canditates[coverItemId];
         var imageItem = addItem(coverItem, canvasItem);
 
-        imageItem.click(function(obj){
+        imageItem.click(function(obj, canvasItem){
             return function(){
-                showCandidate(obj);
+                showCandidate(obj, canvasItem);
             };
-        }(obj));
+        }(obj, canvasItem));
 
         var buttonContainer = $('<div class="button_container"></div>');
         buttonContainer.appendTo(canvasItem);

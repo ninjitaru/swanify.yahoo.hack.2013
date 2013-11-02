@@ -1,4 +1,4 @@
-function showCandidate(object)
+function showCandidate(object, canvasItem)
 {
     var selector = $('#canditate_selector').empty();
     selector.css('opacity', 0);
@@ -21,7 +21,7 @@ function showCandidate(object)
     {
         var canditateItem = canditates[k];
 
-        var selector_div = $('<img class="canditate_item hover_scale" />');
+        var selector_div = $('<img class="canditate_item hover_scale horizontal_scroll" />');
         selector_div.attr('src', canditateItem.images[0]);
         var onClick = function(canditateItem)
         {
@@ -29,7 +29,7 @@ function showCandidate(object)
                 $('.canditate_item').removeClass('item_selected');
                 $(this).addClass('item_selected');
 
-
+                setItem(canditateItem, canvasItem);
             };
         }(canditateItem);
 

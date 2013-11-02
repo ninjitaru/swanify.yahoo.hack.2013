@@ -12,6 +12,7 @@
   <script type="text/javascript">
   function getItem(itemId)
   {
+    itemId = itemId.toString();
     for(var i in item_list.items)
     {
       var item = item_list.items[i];
@@ -97,10 +98,12 @@
     var itemId = item.id;
     var coverItemId = parseInt(itemId);
 
-    var item = getItem(itemId);
-    item['owner'] = t;
-    item['suck'] = [];
-    item['like'] = [];
+    if (typeof item['owner'] != 'undefined')
+    {
+      item['owner'] = t;
+      item['suck'] = [];
+      item['like'] = [];
+    }
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
     {
@@ -112,12 +115,13 @@
   function submitCanvas()
   {
     var url = '/pavo_canvas/' + canvas.owner;
+    var postString = JSON.stringify({ "pavo_canva" : canvas });
     $.ajax({
       type: "PUT",
+      traditional: true,
       contentType: "application/json; charset=utf-8",
       url: url,
-      data: JSON.stringify({ "pavo_canva" : canvas }),
-      dataType: "json"
+      data: postString
     });
   }
 
@@ -160,7 +164,7 @@
   </script>
 
   <div class="swan_topbar">
-    <div class="image_list">
+    <div class="image_list horizontal_scroll">
       <% @item_list.items.reverse_each do |item| %>
         <span class="swan_image">
           <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
@@ -175,7 +179,7 @@
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>
-      <div id="canditate_selector" class="overlay">
+      <div id="canditate_selector" class="overlay horizontal_scroll">
       </div>
     </div>
   </div>

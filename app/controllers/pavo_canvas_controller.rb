@@ -21,9 +21,9 @@ class PavoCanvasController < ApplicationController
             @canvas.objects = Array.new
 
             @item_list.items.each do |item|
-                item_json = ActiveSupport::JSON.decode(item.to_json)
-                item_json["like"] = Set.new
-                item_json["suck"] = Set.new
+                item_json = item.as_json
+                item_json["like"] = [-1]
+                item_json["suck"] = [-1]
                 item_json["owner"] = params[:id]
 
                 obj = {
@@ -35,20 +35,18 @@ class PavoCanvasController < ApplicationController
                 }
                 @canvas.objects.push(obj)
             end
-
             @canvas.save
         end
 
-        @canvas.objects.each do |obj|
-            obj[:canditates].each_value do |canditate|
-                unless canditate["like"]
-                    canditate["like"] = Set.new
-                    canditate["suck"] = Set.new
-                end
-            end
-        end
-
-        @canvas.save
+        # @canvas.objects.each do |obj|
+        #     obj["canditates"].each_value do |item|
+        #         unless item["like"]
+        #             item["like"] = []
+        #             item["suck"] = []
+        #         end
+        #     end
+        # end
+        # @canvas.save
         respond_to do |format|
             format.html {}
             format.json { render json: {
@@ -61,7 +59,7 @@ class PavoCanvasController < ApplicationController
     def destroy
         @can = PavoCanva.find_by_owner(params[:id])
         @can.destroy
-        render json: { :message => "Remove #{params[:id]} success!" }
+        render json: { :message => "#{params[:id]} success!" }
     end
 
     def update
@@ -70,27 +68,28 @@ class PavoCanvasController < ApplicationController
         review_type = params[:review]
         if review_type
             @can.objects.each do |object|
-                item = object[:canditates][params[:target_item]]
+                logger.debug "Object: #{object}"
+                item = object[:canditates][params["target_item"].to_s]
                 if item
+                    logger.debug "TEST HAHA"
                     review = item[review_type]
                     token = params[:token]
                     if review.include?(token)
                         review.delete(token)
                     else
-                        review.add(token)
+                        review.push(token)
                     end
                     item[review_type] = review
+
+                    @can.save
                 end
-            end
-            if @can.save
-                render json: @can
             end
         else
             @can.update(pavo_param)
-            if @can.save
-                render json: @can
-            end
+            @can.save
         end
+
+        render json: @can
     end
 
     def create
