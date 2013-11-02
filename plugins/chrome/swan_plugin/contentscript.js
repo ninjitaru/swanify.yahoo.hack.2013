@@ -1,61 +1,37 @@
-
 var username = "ninji";
-var httpURL = "http://pavo-prototype.herokuapp.com/";
+var httpURL = "http://localhost:3000/";
 var canvasPath = "pavo_canvas/";
 
+appendCSS();
 //deleteItemList(username);
 getItemListID(username);
 
 // bar functions
 
+function appendCSS()
+{
+    $('<link rel="stylesheet" href="'+chrome.extension.getURL('collectionstyle.css')+'" type="text/css" />').appendTo('head');
+}
+
 function showTopBar() {
 
     var isNew = true;
-    var topbar = $("div#topbar");
-    var topleft;
+    var topbar = $("div.swan_topbar");
+    
     if(topbar.length == 0)
     {
         console.log("create topbar");
-        topbar = $("<div id='topbar'></div>");
-        topbar.css({
-        'position': 'fixed',
-        'left': '0px',
-        'top': '-165px',
-        'z-index': 9999,
-        'width': '100%',
-        'height': '165px',
-        'background-color': '#a1dcd8',
-        'box-shadow': '0px 2px 20px 1px #888888'
-        });
-        $('body').append(topbar);
 
-        topleft = $("<div id='topleftbar'></div>");
-        topleft.css({
-            'position' : 'relative',
-            'float' : 'left',
-            'left': '0px',
-            'top': '5px',
-            'float':'left',
-            'overflow':'auto',
-            'overflow-y':'hidden',
-            'white-space': 'nowrap',
-            'width': '80%',
-            'height': '160px',
-            'background-color': '#fffffb'  // Confirm it shows up
-        });
+        topbar = $("<div class='swan_topbar'></div>");
+        var topleft = $("<div class='swan_item_list'></div>");
+        var topright = $("<div class='swan_plugin_edit_area'></div>");
+        topright.css("background-image",'url("'+chrome.extension.getURL('list_tab.png')+'")');
+        var toptext = $("<div class='swan_textbar'><a></a></div>");
+
         topbar.append(topleft);
-        var topright = $("<div id='toprightbar'></div>");
-        topright.css({
-            'position' : 'relative',
-            'top': '5px',
-            'float':'left',
-            'width': '20%',
-            'height': '160px',
-            'background-image': 'url("'+chrome.extension.getURL('list_tab.png')+'")',
-            'background-repeat' : 'no-repeat',
-            'background-color': '#fffffb'
-        });
         topbar.append(topright);
+        topbar.append(toptext);
+        $('body').append(topbar);
 
         var editbtn = $("<img src='"+chrome.extension.getURL('edit_btn.png')+"'/>");
         editbtn.css({
@@ -70,18 +46,6 @@ function showTopBar() {
         editbtn.click(function() {
             chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
         });
-
-        var toptext = $("<div id='toptext'><a></a></div>");
-        toptext.css({
-            'position' : 'absolute',
-            'float' : 'none',
-            'top' : '10px',
-            'left' : '10px',
-            'color' : 'black',
-            'width' : '70%',
-            'height' : '20px'
-        });
-        topbar.append(toptext);
     }
     else
     {
@@ -106,7 +70,7 @@ function showTopBar() {
 
 function clearTopBar()
 {
-    var topbar = $("div#topleftbar");
+    var topbar = $("div.swan_item_list");
     if(topbar.length > 0)
     {
         topbar.empty();
@@ -131,7 +95,7 @@ function autoHideBar()
    }
 
    //Zero the idle timer on mouse movement.
-   var topbar = $("div#topbar");
+   var topbar = $("div.swan_topbar");
    topbar.mousemove(function(e){
       idleTime = 0;
    });
@@ -182,7 +146,7 @@ function showItemOnBar(item, front)
 {
     // console.log(item);
     front = true;
-    var topbar = $("div#topleftbar");
+    var topbar = $("div.swan_item_list");
     // console.log(topbar);
     var string = '<span><img class="swan draggable" style="border-radius: 4px;border-style:solid;border-width:1px;border-color:#a1dcd8;" width="120px" height="120px" id="'+ item.id +'" src="'+ item.images[0] +'"/></span>';
     var textBlock = $("<div class='swaninnertext'>$ "+item.price+"</div>");
@@ -232,9 +196,11 @@ function showItemOnBar(item, front)
 
         $("img.swan").css("border-width", "1px");
         $("div.swaninnertext").css("left", "1px");
+        $("div.swaninnertext").css("top", "-29px");
         $("div#toptext a").attr("href", item.url);
         $("div#toptext a").text(item.title);
         $(this).find("div.swaninnertext").css("left","3px");
+        $(this).find("div.swaninnertext").css("top","-30px");
         $(this).find("img").css("border-width", "3px"); 
     });
 
@@ -288,9 +254,8 @@ function getItemListID(userid) {
         console.log("create user with item_list_id ");
         // console.log(msg);
         var itemList = msg;
-        var topbar = $("div#topleftbar");
+        var topbar = $("div.swan_item_list");
         topbar.empty();
-        console.log(itemList);
         for(var i = 0; i < itemList.items.length; i++)
         {
             showItemOnBar(itemList.items[i],false);
