@@ -88,11 +88,11 @@
     var itemId = item.id;
     var coverItemId = parseInt(itemId);
 
-    if (typeof item['owner'] != 'undefined')
+    if (typeof item['owner'] == 'undefined')
     {
       item['owner'] = t;
-      item['suck'] = [];
-      item['like'] = [];
+      item['suck'] = [-1];
+      item['like'] = [-1];
     }
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
