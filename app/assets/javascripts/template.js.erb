@@ -173,6 +173,9 @@ function setTemplate(template)
 
         imageItem.click(function(i, canvasItem){
             return function(){
+                $('.canvas_item').removeClass('canvas_item_selected');
+                canvasItem.addClass('canvas_item_selected');
+
                 var obj = canvas.objects[i];
                 showCandidate(obj, canvasItem);
             };
