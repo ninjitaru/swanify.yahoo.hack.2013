@@ -12,6 +12,7 @@
   <script type="text/javascript">
   function getItem(itemId)
   {
+    itemId = itemId.toString();
     for(var i in item_list.items)
     {
       var item = item_list.items[i];
@@ -88,46 +89,42 @@
       'background-size': backgroundsizestring,
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
-      'z-index':998
+      'z-index':998,
     });
-    var priceBar = imageItem.children('.priceBar');
-    priceBar.css({
-        'color': 'white',
-        'position' : 'absolute',
-        'float' : 'none',
-        'border-radius': '0 0 2px 2px',
-        'background-color': 'rgba(0, 0, 0, 0.6)',
-        'width': imageItem.width(),
-        'height' : '40px',
-        'left' : imageItem.scrollLeft(),
-        'bottom' : '0px',
-        'display': 'inline-block',
-        'font-size' : '20px',
-    });
+    var priceBar = imageItem.find('.priceBar');
+    priceBar.css('width', imageItem.width());
+    priceBar.css('left', imageItem.scrollLeft());
+    priceBar.text(item.price);
 
     // Set the new candidate item
     var canvasId = canvasItem.attr('id');
     var itemId = item.id;
     var coverItemId = parseInt(itemId);
 
-    var item = getItem(itemId);
-    item['owner'] = t;
-    item['suck'] = [];
-    item['like'] = [];
+    if (typeof item['owner'] == 'undefined')
+    {
+      item['owner'] = t;
+      item['suck'] = [-1];
+      item['like'] = [-1];
+    }
     canvas.objects[canvasId].canditates[itemId] = item;
     if (is_my_canvas)
     {
       canvas.objects[canvasId].cover_item = coverItemId;
     }
+    submitCanvas();
+  }
 
+  function submitCanvas()
+  {
     var url = '/pavo_canvas/' + canvas.owner;
-    console.log(JSON.stringify(canvas));
+    var postString = JSON.stringify({ "pavo_canva" : canvas });
     $.ajax({
       type: "PUT",
+      traditional: true,
       contentType: "application/json; charset=utf-8",
       url: url,
-      data: JSON.stringify({ "pavo_canva" : canvas }),
-      dataType: "json"
+      data: postString
     });
   }
 
@@ -162,19 +159,8 @@
     imageItem.appendTo(canvasItem);
 
     var priceBar = $("<div class='priceBar'>$ " + item.price + "</div>");
-    priceBar.css({
-        'color': 'white',
-        'position' : 'absolute',
-        'float' : 'none',
-        'border-radius': '0 0 2px 2px',
-        'background-color': 'rgba(0, 0, 0, 0.6)',
-        'width': imageItem.width(),
-        'height' : '40px',
-        'left' : imageItem.scrollLeft(),
-        'bottom' : '0px',
-        'display': 'inline-block',
-        'font-size' : '20px',
-    });
+    priceBar.css('width', imageItem.width());
+    priceBar.css('left', imageItem.scrollLeft());
     priceBar.appendTo(imageItem);
 
     return imageItem;
@@ -182,7 +168,7 @@
   </script>
 
   <div class="swan_topbar">
-    <div class="image_list">
+    <div class="image_list horizontal_scroll">
       <% @item_list.items.reverse_each do |item| %>
         <span class="swan_image">
           <%= image_tag item.images[0], :class => "item_image draggable", :id => item.id %>
@@ -197,7 +183,7 @@
     <div id="canvas"></div>
     <div id="selector">
       <div id="template_selector"></div>
-      <div id="canditate_selector" class="overlay">
+      <div id="canditate_selector" class="overlay horizontal_scroll">
       </div>
     </div>
   </div>

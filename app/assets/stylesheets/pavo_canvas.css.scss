@@ -39,17 +39,34 @@ body
     left : 9px;
 }
 
+.priceBar
+{
+    color : white;
+    position : absolute;
+    float : none;
+    font-size: 20px;
+    border-radius : 0 0 2px 2px;
+    min-width : 114px;
+    height : 40px;
+    background-color :  rgba(0, 0, 0,0.6);
+    bottom : 0px;
+}
+
 .image_list {
     height: 160px;
     position : relative;
     float : left;
     left : 0px;
     top: 5px;
+    background-color: #fffffb;
+    width: 100%;
+}
+
+.horizontal_scroll
+{
     overflow:auto;
     overflow-y:hidden;
     white-space: nowrap;
-    background-color: #fffffb;
-    width: 100%;
 }
 
 .draggable {
@@ -266,6 +283,7 @@ div.suck_div
 {
     padding-left: 10px;
     padding-right: 10px;
+
 }
 
 .overlay
@@ -291,7 +309,6 @@ div.suck_div
     display: inline-block;
     width: 120px;
     height: 120px;
-    float: left;
     border-width : 1px;
     border-color : #a1dcd8;
     border-radius: 4px;
