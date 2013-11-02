@@ -50,6 +50,7 @@
       helper: 'clone',
       revert: 'invalid',
       appendTo: 'body',
+      z-index: 999,
     });
 
     $( ".canvas_item" ).droppable({
@@ -74,7 +75,7 @@
       'background-size': 'auto 300px',
       'top' : canvasItem.scrollLeft(),
       'left' : canvasItem.scrollTop(),
-      'z-index':9999,
+      'z-index':998,
     });
     
     // Set the new candidate item
