@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body 
+body
 {
     margin : 0 0 0 0;
 }
@@ -152,21 +152,35 @@ body{
     margin-bottom: 3px;
 }
 
-div.like_div
+div.review_div
 {
     width: 36px;
     height: 36px;
     display: table-cell;
-    vertical-align: middle;
+}
+
+div.review_div:hover
+{
+    -webkit-transform: scale(1.1, 1.1);
+}
+
+div.no_review_div
+{
+    opacity: 0.5;
+}
+
+div.no_review_div:hover
+{
+    opacity: 1;
+}
+
+div.like_div
+{
     background-image: image-url("like_btn.png");
 }
 
 div.suck_div
 {
-    width: 36px;
-    height: 36px;
-    display: table-cell;
-    vertical-align: middle;
     background-image: image-url("suck_btn.png");
 }
 

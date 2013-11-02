@@ -44,7 +44,7 @@ function showTopBar() {
         });
         topright.append(editbtn);
         editbtn.click(function() {
-            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html?t=" + username });
+            chrome.extension.sendMessage({ canvasURL : httpURL + canvasPath + username +".html" });
         });
     }
     else

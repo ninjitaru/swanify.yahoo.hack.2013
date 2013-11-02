@@ -38,6 +38,16 @@ class PavoCanvasController < ApplicationController
             @canvas.save
         end
 
+        @canvas.objects.each do |obj|
+            obj[:canditates].each_value do |canditate|
+                unless canditate["like"]
+                    canditate["like"] = Set.new
+                    canditate["suck"] = Set.new
+                end
+            end
+        end
+
+        @canvas.save
         respond_to do |format|
             format.html {}
             format.json { render json: {
@@ -62,7 +72,12 @@ class PavoCanvasController < ApplicationController
                 item = object[:canditates][params[:target_item]]
                 if item
                     review = item[review_type]
-                    review.add(params[:token])
+                    token = params[:token]
+                    if review.include?(token)
+                        review.delete(token)
+                    else
+                        review.add(token)
+                    end
                     item[review_type] = review
                 end
             end
