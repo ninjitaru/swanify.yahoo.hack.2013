@@ -214,20 +214,9 @@
   }
 
   $(document).ready(function(){
-    $(".detailToggleBtn").hover(
-      function() {
-        $(this).css({
-          'background-image' : 'url(/assets/info_btn_over.png)',
-        })
-      },
-      function() {
-        $(this).css({
-          'background-image' : 'url(/assets/info_btn.png)',
-        })
-      }
-    );
-
     $(".detailToggleBtn").click(function() {
+      $(this).toggleClass('detailToggleBtnSelected');
+
       $(".titleBar").fadeToggle();
       $(".priceBar").fadeToggle();
     });
