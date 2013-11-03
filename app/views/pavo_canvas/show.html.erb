@@ -58,10 +58,12 @@
           $("#selectable li").click(function () {
             var name = $(this).text();
             console.log(name);
-            $("div.sharebox div").remove();
-            var shareurl = document.location.hostname + document.location.pathname + "?t=" + name;
-            var sharediv = $("<div>"+shareurl+"</div>");
-            sharebox.append(sharediv);
+
+            // $("div.sharebox div").remove();
+            var shareurl = document.location.pathname + "?t=" + name;
+            window.open(shareurl, "_blank");
+            // var sharediv = $("<div>"+shareurl+"</div>");
+            // sharebox.append(sharediv);
           });
         });
   });

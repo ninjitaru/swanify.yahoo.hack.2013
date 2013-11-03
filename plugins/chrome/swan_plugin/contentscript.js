@@ -291,14 +291,21 @@ function sendData(itemList)
     });
 
     // find main image
+    var foundMainImage = false;
     jQuery("img[class='main-image current']").each(function(index,img){
         var src = img.src;
+        foundMainImage = true;
         // if(src.match(/(gif|png|jpg|jpeg)$/))
         // {
             // console.log("found main image " + src);
             srcList.unshift(src);
         // }
     });
+    if(!foundMainImage)
+    {
+        var index = Math.floor(Math.random() * srcList.length) + 1;
+        srcList.unshift(srcList[index]);
+    }
     console.log("main image " + srcList[0]);
 
     // Yahoo!奇摩購物中心 
