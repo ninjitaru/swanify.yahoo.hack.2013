@@ -27,12 +27,14 @@
     $("img.item_image").click(function(){
       var itemID = $(this).attr("id");
       var item = getItem(itemID);
+      $("img.item_image").css("border-color", "#a1dcd8");
       $("div.swan_innertext").removeClass("swan_innertext_selected");
       $("div.swan_textbar a").attr("href", item.url);
       $("div.swan_textbar a").text(item.title);
       $("img.item_image").css("border-width", "1px");
       $(this).siblings().addClass("swan_innertext_selected");
       $(this).css("border-width", "3px");
+      $(this).css("border-color", "#f9a7b5");
     });
 
     var sharebtn = $("img.swan_share_btn");
@@ -98,7 +100,7 @@
     var width = canvasItem.width();
     var height = canvasItem.height();
     var backgroundsizestring;
-    if(width >= height)
+    if(width <= height)
     {
       backgroundsizestring = width +'px auto';
     }
@@ -169,7 +171,7 @@
     var width = canvasItem.width();
     var height = canvasItem.height();
     var backgroundsizestring;
-    if(width >= height)
+    if(width <= height)
     {
       backgroundsizestring = width +'px auto';
     }
@@ -237,6 +239,7 @@
         </span>
       <% end %>
     </div>
+    <div class='swan_plugin_edit_area'></div>
     <div class="swan_textbar"><a target="_blank"></a></div>
   </div>
 

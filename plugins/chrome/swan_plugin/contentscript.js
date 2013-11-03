@@ -195,6 +195,7 @@ function showItemOnBar(item, front)
     imgDom.click(function(){
 
         $("img.swan").css("border-width", "1px");
+        $("img.swan").css("border-color", "#a1dcd8");
         $("div.swan_innertext").css("left", "1px");
         $("div.swan_innertext").css("top", "-29px");
         $("div.swan_textbar a").attr("href", item.url);
@@ -202,6 +203,7 @@ function showItemOnBar(item, front)
         $(this).find("div.swan_innertext").css("left","3px");
         $(this).find("div.swan_innertext").css("top","-30px");
         $(this).find("img").css("border-width", "3px"); 
+        $(this).find("img").css("border-color", "#f9a7b5"); 
     });
 
     if(front)
