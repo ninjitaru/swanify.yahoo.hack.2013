@@ -2,7 +2,7 @@
 // username = "ninji";
 var username = swan_username;
 console.log("context " + username);
-var httpURL = "http://localhost:3000/";
+var httpURL = "http://pavo-prototype.herokuapp.com/";
 var canvasPath = "pavo_canvas/";
 
 appendCSS();
@@ -185,9 +185,17 @@ function showItemOnBar(item, front)
                 }
             }
         });
+    imgDom.hover(function() {
+        // $("div.swan_textbar a").attr("href", item.url);
+        // $("div.swan_textbar a").text(item.title);
+    }, function () {
+        // $("div.swan_textbar a").attr("href", "");
+        // $("div.swan_textbar a").text("");
+    });
     imgDom.click(function(){
 
         $("img.swan").css("border-width", "1px");
+        $("img.swan").css("border-color", "#a1dcd8");
         $("div.swan_innertext").css("left", "1px");
         $("div.swan_innertext").css("top", "-29px");
         $("div.swan_textbar a").attr("href", item.url);
@@ -195,6 +203,7 @@ function showItemOnBar(item, front)
         $(this).find("div.swan_innertext").css("left","3px");
         $(this).find("div.swan_innertext").css("top","-30px");
         $(this).find("img").css("border-width", "3px"); 
+        $(this).find("img").css("border-color", "#f9a7b5"); 
     });
 
     if(front)

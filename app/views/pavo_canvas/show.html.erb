@@ -27,12 +27,14 @@
     $("img.item_image").click(function(){
       var itemID = $(this).attr("id");
       var item = getItem(itemID);
+      $("img.item_image").css("border-color", "#a1dcd8");
       $("div.swan_innertext").removeClass("swan_innertext_selected");
       $("div.swan_textbar a").attr("href", item.url);
       $("div.swan_textbar a").text(item.title);
       $("img.item_image").css("border-width", "1px");
       $(this).siblings().addClass("swan_innertext_selected");
       $(this).css("border-width", "3px");
+      $(this).css("border-color", "#f9a7b5");
     });
 
     var sharebtn = $("img.swan_share_btn");
@@ -98,7 +100,7 @@
     var width = canvasItem.width();
     var height = canvasItem.height();
     var backgroundsizestring;
-    if(width >= height)
+    if(width <= height)
     {
       backgroundsizestring = width +'px auto';
     }
@@ -108,6 +110,7 @@
     }
 
     imageItem.css({
+      'background' : 'white',
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
@@ -169,7 +172,7 @@
     var width = canvasItem.width();
     var height = canvasItem.height();
     var backgroundsizestring;
-    if(width >= height)
+    if(width <= height)
     {
       backgroundsizestring = width +'px auto';
     }
@@ -180,6 +183,7 @@
 
     var imgUrl = "url(" + item.images[0] + ")";
     var imageItem = $('<div id="' + item.id + '" class="image_item"></div>').css({
+      'background' : 'white',
       'background-image': imgUrl,
       'background-position':'center',
       'background-repeat':'no-repeat',
@@ -237,6 +241,7 @@
         </span>
       <% end %>
     </div>
+    <div class='swan_plugin_edit_area'></div>
     <div class="swan_textbar"><a target="_blank"></a></div>
   </div>
 
@@ -253,7 +258,7 @@
       <img class="delete_btn_over hover_scale" src='<%= asset_path("delete_btn_over.png") %>' />
     </div>
     <div class="rightcontent">
-    <img src="<%= asset_path('text_info.png') %>"/>
+    <img style="padding-top: 20px;" src="<%= asset_path('text_info.png') %>"/>
     <img class="swan_share_btn" src="<%= asset_path('share_btn.png') %>"/>
   </div>
   </div>
