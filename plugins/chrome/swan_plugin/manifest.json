@@ -1,7 +1,8 @@
 {
-  "name": "Swan",
-  "description": "Capture current page info onto Swan",
-  "version": "0.0.1",
+  "manifest_version": 2,
+  "name": "Swanify",
+  "description": "Capture current page info onto Swanify",
+  "version": "0.0.2",
   "permissions": ["activeTab" , "tabs" , "http://*/*"],
   "background": {
     "scripts": ["background.js", "storage.js"],
@@ -9,19 +10,10 @@
   },
   "browser_action": {
     "default_icon": "plugin_icon_38.png",
-    "default_title": "Swan"
+    "default_title": "Swanify"
   },
   "icons": { "16": "plugin_icon_16.png",
            "48": "plugin_icon_48.png",
           "128": "plugin_icon_128.png" },
-  "web_accessible_resources" :["list_tab.png", "edit_btn.png", "collectionstyle.css","edit_btn_over.png"],
-  // "content_scripts" : [
-  //   {
-  //     "matches" : [ "http://*/*" ],
-  //     "js" : [ "contentscript.js" ],
-  //     "run_at" : "document_idle",
-  //     "all_frames" : false
-  //   }
-  // ],
-  "manifest_version": 2
+  "web_accessible_resources" :["list_tab.png", "edit_btn.png", "collectionstyle.css","edit_btn_over.png"]
 }

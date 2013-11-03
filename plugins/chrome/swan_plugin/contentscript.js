@@ -163,12 +163,24 @@ function showItemOnBar(item, front)
     var imgDom = $(string);
     imgDom.append(textBlock);
     imgDom.css({
+        'opacity' : '0',
         'padding-top' : '25px',
         'padding-left' : '6px',
         'padding-right' : '6px',
         'padding-bottom' : '0px',
         'display': 'inline-block',
         });
+    imgDom.animate(
+  {
+    opacity : 1,
+    queue  : false,
+  }, 
+  1000, 
+  "linear", 
+  function() {
+    
+  });
+
     imgDom.draggable({
             revert: "invalid" ,
             zIndex : 999999,
